@@ -1,0 +1,16 @@
+.input-field {
+    min-height: 20px;
+    margin-bottom: 16px;
+    padding-top: 16px;
+    border: none;
+    border-bottom: 1px solid #3369F3;
+    box-sizing: border-box;
+}
+
+.input-field:last-of-type {
+    margin-bottom: 62px;
+}
+
+.input-field:focus {
+    outline: none;
+}

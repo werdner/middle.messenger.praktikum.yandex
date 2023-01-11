@@ -1,0 +1,126 @@
+.chat__container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+.column-left__header {
+    display: flex;
+    flex-direction: column;
+    padding-top: 21px;
+    min-height: 102px;
+    border-bottom: 1px solid #EAEAEA;
+}
+
+.chat__column-left {
+    width: 310px;
+    min-width: 250px;
+    padding: 21px 0 14px;
+    background: #FBFBFB;
+    border-right: 1px solid #EAEAEA;
+    padding: 0 10px;
+}
+
+.header__profile__link {
+    align-self: end;
+    margin-bottom: 23px;
+    color: #999999;
+    border: none;
+    background: none;
+    text-decoration: none;
+}
+
+.header__profile__search {
+    background: #EFEFEF;
+    min-height: 32px;
+    border-radius: 5px;
+    border: none;
+}
+
+.header__profile__search::placeholder {
+    text-align: center;
+}
+
+.contact__data {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 10px;
+}
+
+.data__title {
+    margin-bottom: 4px;
+    color: #1E1E1E;
+}
+
+.data__message {
+    margin: 0;
+    color: #999999;
+}
+
+.chat__column-right {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 0 20px;
+}
+
+.chat__list {
+    margin: 0;
+    padding: 0;
+}
+
+.chat__list__item {
+    display: flex;
+    padding: 12px 0;
+    list-style-type: none;
+    border-bottom: 1px solid #EAEAEA;
+}
+
+.window__header {
+    min-height: 54px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #EAEAEA;
+}
+
+.window__main {
+    flex-grow: 1;
+    padding: 48px 30px 20px;
+}
+
+.window__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 54px;
+    border-top: 1px solid #EAEAEA;
+    padding: 11px 0;
+}
+
+.send__message__settings {
+    border: none;
+    width: 32px;
+    height: 32px;
+    background: url("../../../../static/blue-clip.svg");
+    cursor: pointer;
+}
+
+.send__message__button {
+    border: none;
+    width: 32px;
+    height: 32px;
+    background: url("../../../../static/blue-arrow.svg") no-repeat;
+    cursor: pointer;
+    transform: rotate(180deg);
+}
+
+.send__message__field {
+    width: 100%;
+    margin: 0 10px;
+    padding: 10px 20px;
+    min-height: 32px;
+    background: #EFEFEF;
+    border-radius: 30px;
+    box-sizing: border-box;
+    border: none;
+}

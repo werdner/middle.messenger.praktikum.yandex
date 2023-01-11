@@ -1,0 +1,15 @@
+.user__avatar {
+    display: inline-block;
+    border-radius: 50%;
+    background: #EFEFEF;
+}
+
+.size-xl {
+    width: 130px;
+    height: 130px;
+}
+
+.size-l {
+    width: 47px;
+    height: 47px;
+}
