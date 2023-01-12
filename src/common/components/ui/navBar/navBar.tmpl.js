@@ -30,13 +30,13 @@ export function template() {
     ]
 
     const navBartTemplate =  new Templator(`
-        <div className="${styles['navbar__container']}">
+        <nav className="${styles['navbar__container']}">
             <h1 className="${styles['navbar__title']}">NavBar</h1>
             <hr />
             <ul className="${styles['navbar__list']}">
                 {{ LinksList }}
             </ul>
-        </div>
+        </nav>
     `)
 
     const getLinks = () => {
