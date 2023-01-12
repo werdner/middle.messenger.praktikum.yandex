@@ -35,6 +35,6 @@ export function template() {
         AuthForm: signInForm(),
         ButtonText: 'Войти',
         LinkText: 'Нет аккаунта?',
-        PathName: '/sign-up'
+        OnClick: 'openSignUpPage'
     })
 }

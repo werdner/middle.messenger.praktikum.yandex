@@ -17,8 +17,7 @@
     border: none;
     width: 28px;
     height: 28px;
-    background: url("../../../../static/blue-arrow.svg");
-    text-decoration: none;
+    background: url("../../../../static/assets/blue-arrow.svg");
 }
 
 .profile__column-right {

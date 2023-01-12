@@ -21,13 +21,12 @@
     padding: 0 10px;
 }
 
-.header__profile__link {
+.header__profile__button {
     align-self: end;
     margin-bottom: 23px;
     color: #999999;
     border: none;
     background: none;
-    text-decoration: none;
 }
 
 .header__profile__search {
@@ -101,7 +100,7 @@
     border: none;
     width: 32px;
     height: 32px;
-    background: url("../../../../static/blue-clip.svg");
+    background: url("../../../../static/assets/blue-clip.svg");
     cursor: pointer;
 }
 
@@ -109,7 +108,7 @@
     border: none;
     width: 32px;
     height: 32px;
-    background: url("../../../../static/blue-arrow.svg") no-repeat;
+    background: url("../../../../static/assets/blue-arrow.svg") no-repeat;
     cursor: pointer;
     transform: rotate(180deg);
 }

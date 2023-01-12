@@ -79,7 +79,7 @@ export function template() {
     const pageTemplate =  `
         <div className="${styles['profile__container']}">
             <div className="${styles['profile__column-left']}">
-            <a className="${styles['profile__arrow-back']}" href="{{ PathName }}"/>
+            <button className="${styles['profile__arrow-back']}" onClick="{{ onClick }}"/>
             </div>
             <article className="${styles['profile__column-right']}">
                 <div className="${styles['profile__settings__container']} user">
@@ -100,7 +100,7 @@ export function template() {
 
     return new Templator(pageTemplate).prepareToCompile({
         UserName: 'Иван',
-        PathName: '/chats',
+        onClick: 'openChatsPage',
         InfoList: fieldsInfo.map((item) => {
             const {type, name, placeholder, value} = item.input
 

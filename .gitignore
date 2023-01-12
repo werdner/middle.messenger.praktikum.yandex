@@ -7,3 +7,9 @@
 # IDEs and editors
 .idea
 .parcel-cache
+
+# dotenv environment variables file
+.env
+
+# System Files
+.DS_Store

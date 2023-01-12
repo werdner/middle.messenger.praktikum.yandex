@@ -6,7 +6,7 @@ export function template() {
             <div className="${styles['error__info']}">
                 <span className="${styles['error__code']}"> {{ ErrorCode }} </span>
                 <span className="${styles['error__message']}"> {{ ErrorMessage }} </span>
-                <a className="${styles['error__link']}" href="{{ PathName }}"> {{ ButtonText }} </a>
+                <button className="${styles['error__button']}" onClick="{{ OnClick }}"> {{ ButtonText }} </button>
             </div>
         </div>
     `

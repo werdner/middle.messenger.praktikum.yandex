@@ -33,6 +33,7 @@ export class Templator {
     }
 
     prepareToCompile(context) {
+        debugger
         let  variableName = null
         let result = this.#template
         this.#context = context

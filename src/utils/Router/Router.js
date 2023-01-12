@@ -7,17 +7,17 @@ export class Router {
         this.#routes = routes
     }
 
-    #getPageByPath() {
-        const currentPath = window.location.pathname
-        const page = this.#routes.filter((page) => page.path === currentPath)[0]
+    #getPageByPath(path) {
+        const page = this.#routes.filter((page) => page.path === path)[0]
 
         return page ? page : this.#routes.find((page) => page.path === '/404')
     }
 
-    start() {
+    start(path) {
+        debugger
         const root = document.querySelector('#root')
-        const {page} = this.#getPageByPath()
+        const {page} = this.#getPageByPath(path)
 
-        root.append(page.render())
+        root.replaceChildren(page.render())
     }
 }

@@ -1,5 +1,6 @@
 import {Templator} from '../../../utils/Templator'
 import {template} from './error404Page.tmpl'
+import {router} from "../../../utils/Router";
 
 export class Error404Page {
     #error404Templator
@@ -10,7 +11,13 @@ export class Error404Page {
         this.#context = context
     }
 
+    #openChatsPage() {
+        router.start('/chats')
+    }
+
     render() {
-        return this.#error404Templator.compile(this.#context)
+        return this.#error404Templator.compile(this.#context, {
+            openChatsPage: this.#openChatsPage
+        })
     }
 }

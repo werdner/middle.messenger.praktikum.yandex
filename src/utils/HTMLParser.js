@@ -31,6 +31,7 @@ export class HTMLParser {
     }
 
     #createHTMLElement(tag, props, children) {
+        debugger
         const element = tag ? document.createElement(tag) : document.createDocumentFragment()
         if (props) {
             props.forEach(([key, value]) => {

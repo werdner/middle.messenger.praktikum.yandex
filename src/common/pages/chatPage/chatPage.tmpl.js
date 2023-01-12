@@ -18,7 +18,7 @@ export function template() {
         <div className="${styles['chat__container']}">
             <article className="${styles['chat__column-left']}">
                 <header className="${styles['column-left__header']} header">
-                    <a className="${styles['header__profile__link']}" href="{{ PathName }}">Профиль</a>
+                    <button className="${styles['header__profile__button']}" onClick="{{ OnClick }}">Профиль</button>
                     <input href="#" className="${styles['header__profile__search']}" type="text" placeholder="Поиск" />
                 </header>
                 <ul className="${styles['chat__list']} list">
@@ -46,7 +46,7 @@ export function template() {
     `
 
     return new Templator(pageTemplate).prepareToCompile({
-        PathName: '/profile',
+        OnClick: 'openProfilePage',
         ChatList: chatList.map((chat) => ( `
             <li
                 className="${styles['chat__list__item']} contact"

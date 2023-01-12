@@ -1,5 +1,6 @@
 import {Templator} from '../../../utils/Templator'
 import {template} from './chatPage.tmpl'
+import {router} from "../../../utils/Router";
 
 export class ChatPage {
     #chatTemplator
@@ -11,8 +12,7 @@ export class ChatPage {
     }
 
     #openProfilePage() {
-        window.history.pushState({}, '', './profile')
-        window.history.go()
+        router.start('/profile')
     }
 
     render() {

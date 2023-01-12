@@ -7,7 +7,7 @@ export function template() {
     return errorContainerTemplate.prepareToCompile({
         ErrorCode: '500',
         ErrorMessage: 'Мы уже фиксим',
-        PathName: '/chats',
+        OnClick: 'openChatsPage',
         ButtonText: 'Назад к чатам'
     })
 }

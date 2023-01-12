@@ -60,6 +60,6 @@ export function template() {
         AuthForm: signInForm(),
         ButtonText: 'Зарегистрироваться',
         LinkText: 'Войти?',
-        PathName: '/sign-in'
+        OnClick: 'openSignInPage'
     })
 }

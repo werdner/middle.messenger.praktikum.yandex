@@ -28,12 +28,11 @@
     min-width: 280px;
 }
 
-.auth__bottom-link {
+.auth__bottom-button {
     margin: 0 auto;
     color: #3369F3;
     background: inherit;
     border: none;
-    text-decoration: none;
     cursor: pointer;
 }
 

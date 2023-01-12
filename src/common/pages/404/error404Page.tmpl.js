@@ -7,7 +7,7 @@ export function template() {
     return errorContainerTemplate.prepareToCompile({
         ErrorCode: '404',
         ErrorMessage: 'Не туда попали',
-        PathName: '/chats',
+        OnClick: 'openChatsPage',
         ButtonText: 'Назад к чатам'
     })
 }

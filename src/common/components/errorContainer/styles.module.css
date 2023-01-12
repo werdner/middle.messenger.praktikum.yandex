@@ -21,7 +21,7 @@
     top: 45px;
     width: 260px;
     height: 263px;
-    background: url("../../../../static/astronaut.svg");
+    background: url("../../../../static/assets/astronaut.svg");
 }
 
 .error__info::after {
@@ -31,7 +31,7 @@
     top: -100px;
     width: 201px;
     height: 224px;
-    background: url("../../../../static/mars.svg");
+    background: url("../../../../static/assets/mars.svg");
 }
 
 .error__code {
@@ -44,10 +44,12 @@
     font-size: 20px;
 }
 
-.error__link {
+.error__button {
     text-decoration: none;
     color: #3369F3;
     font-size: 11px;
+    background: inherit;
+    border: none;
 }
 
 .input-field {

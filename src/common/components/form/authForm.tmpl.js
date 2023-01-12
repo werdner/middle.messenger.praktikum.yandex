@@ -7,12 +7,12 @@ export function template() {
             <form className="${styles['auth__form']}">
                 {{ AuthForm }}
                 <button className="${styles['auth__button_submit']}" type="submit">{{ ButtonText }}</button>
-                <a
-                    className="${styles['auth__bottom-link']}"
-                    href="{{ PathName }}"
+                <button
+                    className="${styles['auth__bottom-button']}"
+                    onClick="{{ OnClick }}"
                 >
                     {{ LinkText }}
-                </a>
+                </button>
             </form>
         </div>
     `

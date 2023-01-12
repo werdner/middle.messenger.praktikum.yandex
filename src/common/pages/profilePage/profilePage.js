@@ -1,5 +1,6 @@
 import {Templator} from '../../../utils/Templator'
 import {template} from './profilePage.tmpl'
+import {router} from "../../../utils/Router";
 
 export class ProfilePage {
     #profileTemplator
@@ -10,7 +11,13 @@ export class ProfilePage {
         this.#context = context
     }
 
+    #openChatsPage() {
+        router.start('/chats')
+    }
+
     render() {
-        return this.#profileTemplator.compile(this.#context)
+        return this.#profileTemplator.compile(this.#context, {
+            openChatsPage: this.#openChatsPage
+        })
     }
 }
