@@ -1,6 +1,6 @@
 import * as styles from './styles.module.css'
 import {Templator} from '../../../utils/Templator';
-import {template as userAvatar} from '../../components/pofileAvatar/profileAvatar.tmpl';
+import {template as userAvatar} from '../../components/userAvatar/userAvatar.tmpl';
 
 export function template() {
     const chatList = [

@@ -11,7 +11,7 @@ export class HTMLParser {
     }
 
     *#baseParse() {
-        const HTML_ELEMENT = /\s*<\/?\b([a-z1-6]+)\s*([^>]*)\/?>\s*(([-_а-яА-Я\w{}?.@()+: ]*)\s*(?=<))?/g
+        const HTML_ELEMENT = /\s*<\/?(\b[a-z1-6]+)?\s*([^>]*)\/?>\s*(([-_а-яА-Я\w{}?.@()+: ]*)\s*(?=<))?/g
         let match = null
         while(match = HTML_ELEMENT.exec(this.#string)) {
             yield match
@@ -35,6 +35,7 @@ export class HTMLParser {
         const element = tag ? document.createElement(tag) : document.createDocumentFragment()
         if (props) {
             props.forEach(([key, value]) => {
+                if (!value) return
 
                 switch (key) {
                     case 'className': {
@@ -91,7 +92,7 @@ export class HTMLParser {
 
             if (nextPart[0].includes('</')) {
 
-                if (this.#lastStackChild(stack).tagName === nextPart[1].toUpperCase()) {
+                if (this.#lastStackChild(stack).tagName === nextPart[1]?.toUpperCase()) {
                     let parentChild = stack.pop()
                     const lastChild = this.#lastStackChild(stack)
 

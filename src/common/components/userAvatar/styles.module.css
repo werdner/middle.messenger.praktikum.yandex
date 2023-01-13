@@ -1,7 +1,7 @@
 .user__avatar {
     display: inline-block;
     border-radius: 50%;
-    background: #EFEFEF;
+    background: var(--dirty-white);
 }
 
 .size-xl {

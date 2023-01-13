@@ -1,7 +1,7 @@
 .navbar__container {
     position: absolute;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.14);
-    background: #FBFBFB;
+    background: var(--light-white);
     right: 5%;
     top: 5%;
     z-index: 1;
@@ -16,13 +16,13 @@
 
 .navbar__item {
     text-align: center;
-    font-size: 16px;
+    font-size: var(--title);
     list-style-type: none;
     padding: 10px 0;
 }
 
 .navbar__item:not(:last-of-type) {
-    border-right: 1px solid #EAEAEA;
+    border-right: 1px solid var(--dirty-white);
 }
 
 .navbar__button {
@@ -33,5 +33,5 @@
 
 .navbar__title {
     text-align: center;
-    font-size: 20px;
+    font-size: var(--title);
 }

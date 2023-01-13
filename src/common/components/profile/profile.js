@@ -14,19 +14,14 @@ export function template() {
                         ${userAvatar('xl')}
                         <span className="${styles['user__name']}">{{ UserName }}</span>
                     </div>
-                    <ul className="user__info__list">
+                    <ul className="${styles['user__info__list']}">
                         {{ InfoList }}
                     </ul>
-                    <div className="${styles['setting-buttons__list']} buttons__list">
+                    <div className="${styles['setting__buttons__list']}">
                         {{ ProfileSettingButtons }}
                     </div>
                 </div>
             </article>
         </div>
     `
-
-    return new Templator(pageTemplate).prepareToCompile({
-        UserName: 'Иван',
-        onClick: 'openChatsPage'
-    })
 }

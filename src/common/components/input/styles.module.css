@@ -1,0 +1,17 @@
+.item__field {
+    text-align: end;
+    width: fit-content;
+    padding: 10px 0;
+    border: none;
+}
+
+.item__field:focus {
+    outline: none;
+}
+
+.item__field::placeholder {
+    margin: 0;
+    font-size: var(--title);
+    font-family: Inter, sans-serif;
+    text-align: end;
+}

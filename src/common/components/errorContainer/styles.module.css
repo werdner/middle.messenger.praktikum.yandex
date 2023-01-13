@@ -35,19 +35,21 @@
 }
 
 .error__code {
+    margin: 0;
     margin-bottom: 20px;
-    font-size: 40px;
+    font-size: var(--big-title);
 }
 
 .error__message {
+    margin: 0;
     margin-bottom: 70px;
-    font-size: 20px;
+    font-size: var(--title);
 }
 
 .error__button {
     text-decoration: none;
-    color: #3369F3;
-    font-size: 11px;
+    color: var(--dark-blue);
+    font-size: var(--links);
     background: inherit;
     border: none;
 }
@@ -57,7 +59,7 @@
     margin-bottom: 16px;
     padding-top: 16px;
     border: none;
-    border-bottom: 1px solid #3369F3;
+    border-bottom: 1px solid var(--dark-blue);
     box-sizing: border-box;
 }
 

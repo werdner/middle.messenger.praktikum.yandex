@@ -17,7 +17,7 @@
 .auth__header {
     margin: 0;
     margin-bottom: 40px;
-    color: #1E1E1E;
+    color: var(--black);
 }
 
 .auth__form {
@@ -30,7 +30,7 @@
 
 .auth__bottom-button {
     margin: 0 auto;
-    color: #3369F3;
+    color: var(--dark-blue);
     background: inherit;
     border: none;
     cursor: pointer;
@@ -38,10 +38,10 @@
 
 .auth__button_submit {
     min-height: 47px;
-    background: #3369F3;
+    background: var(--dark-blue);
     border: none;
     border-radius: 8px;
     margin-top: auto;
     margin-bottom: 14px;
-    color: #FFFFFF;
+    color: var(--white);
 }

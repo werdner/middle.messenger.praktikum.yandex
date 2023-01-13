@@ -2,7 +2,7 @@
     min-height: 20px;
     margin-bottom: 16px;
     border: none;
-    border-bottom: 1px solid #3369F3;
+    border-bottom: 1px solid var(--dark-blue);
     box-sizing: border-box;
 }
 

@@ -26,6 +26,8 @@ export class Templator {
             }
         }
 
+        if (!this.#context) return
+
         return {
             match: match[0],
             value: this.#context[match[1].trim()]
@@ -33,7 +35,6 @@ export class Templator {
     }
 
     prepareToCompile(context) {
-        debugger
         let  variableName = null
         let result = this.#template
         this.#context = context
@@ -45,12 +46,6 @@ export class Templator {
             }
 
             const {match, value} = variableName
-
-            if (typeof value === 'function') {
-                window[variableName.value.name] = value
-                result = result.replace(new RegExp(match, 'gi'), `window.${variableName.value.name}()`)
-                continue
-            }
 
             result = result.replace(new RegExp(match, 'gi'), value)
         }
