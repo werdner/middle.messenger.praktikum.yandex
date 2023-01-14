@@ -1,0 +1,21 @@
+.button {
+    min-width: 280px;
+    padding: 10px 0;
+    border: none;
+}
+
+.blue {
+    color: var(--white);
+    background: var(--dark-blue);
+    border-radius: 8px;
+}
+
+.ghost {
+    color: var(--dark-blue);
+    background: inherit;
+}
+
+.red {
+    color: var(--red);
+    background: inherit;
+}

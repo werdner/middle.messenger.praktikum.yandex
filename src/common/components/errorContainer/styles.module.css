@@ -1,0 +1,72 @@
+.error__container {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    max-width: 747px;
+    transform: translate(-50%, -50%);
+}
+
+.error__info {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.error__info::before {
+    content: "";
+    position: absolute;
+    left: -314px;
+    top: 45px;
+    width: 260px;
+    height: 263px;
+    background: url("../../../../static/assets/astronaut.svg");
+}
+
+.error__info::after {
+    content: "";
+    position: absolute;
+    right: -303px;
+    top: -100px;
+    width: 201px;
+    height: 224px;
+    background: url("../../../../static/assets/mars.svg");
+}
+
+.error__code {
+    margin: 0;
+    margin-bottom: 20px;
+    font-size: var(--big-title);
+}
+
+.error__message {
+    margin: 0;
+    margin-bottom: 70px;
+    font-size: var(--title);
+}
+
+.error__button {
+    text-decoration: none;
+    color: var(--dark-blue);
+    font-size: var(--links);
+    background: inherit;
+    border: none;
+}
+
+.input-field {
+    min-height: 20px;
+    margin-bottom: 16px;
+    padding-top: 16px;
+    border: none;
+    border-bottom: 1px solid var(--dark-blue);
+    box-sizing: border-box;
+}
+
+.input-field:last-of-type {
+    margin-bottom: 62px;
+}
+
+.input-field:focus {
+    outline: none;
+}

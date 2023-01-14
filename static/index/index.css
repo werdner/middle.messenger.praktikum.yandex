@@ -1,0 +1,30 @@
+:root {
+    /*colors*/
+
+    --dark-blue: #3369F3;
+    --red: #FF0000;
+
+    --white: #FFFFFF;
+    --light-white: #FBFBFB;
+    --dirty-white: #EAEAEA;
+    --gray: #999999;
+
+    --black: #1E1E1E;
+
+    /*fonts*/
+
+    --big-title: 40px;
+    --body-title: 20px;
+
+    --title: 13px;
+    --regular: 12px;
+
+    --links: 11px;
+}
+
+body {
+    margin: 0;
+    color: var(--black);
+    font-family: Inter, sans-serif;
+    font-size: var(--title);
+}
