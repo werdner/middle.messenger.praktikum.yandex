@@ -2,9 +2,9 @@ import styles from './styles.module.css';
 import { Templator } from '../../../core/Templator/Templator';
 import { template as userAvatar } from '../../components/userAvatar/userAvatar.tmpl';
 
-type ChatProps = Record<string, any>
+type ChatProps = Record<string, any>;
 
-function getChatList(chatList: {title: string, lastMessage: string}[]) {
+function getChatList(chatList: { title: string, lastMessage: string }[]) {
     return chatList.map((chat) => ( `
             <li
                 className="${styles['chat__list__item']} contact"
@@ -15,11 +15,11 @@ function getChatList(chatList: {title: string, lastMessage: string}[]) {
                     <p className="${styles['data__message']}">${chat.lastMessage}</p>
                 </div>
             </li>
-        `))
+        `));
 }
 
 export function template(props: ChatProps) {
-    const {message, errors} = props
+    const { message } = props;
     const chatList = [
         {
             title: 'Ivan',

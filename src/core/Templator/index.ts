@@ -1,1 +1,1 @@
-export {Templator} from './Templator'
+export { Templator } from './Templator';

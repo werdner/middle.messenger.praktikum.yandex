@@ -1,12 +1,12 @@
 import { Templator } from '../../../core/Templator/index';
 import { template } from './index';
 import { router } from '../../../core/Router';
-import {Block} from "../../../core/Block";
-import {Validator} from "../../../utils/validator";
+import { Block } from '../../../core/Block';
+import { Validator } from '../../../utils/validator';
 
 export class SignUpPage extends Block {
-    private readonly validatorConfig
-    private validator: Validator
+    private readonly validatorConfig;
+    private validator: Validator;
 
     constructor(context?: object) {
         const state = {
@@ -16,76 +16,76 @@ export class SignUpPage extends Block {
             phone: '',
             login: '',
             password: '',
-            errors: {}
-        }
+            errors: {},
+        };
 
         const events = {
             openSignUpPage: () => router.start('/sign-in'),
             onInputBlur: (event: Event) => {
-                const {target} = event
+                const { target } = event;
 
                 if (target instanceof HTMLInputElement) {
-                    const popup = document.querySelector(`[data-name=${target.name}]`)
-                    const isHTMLElement = popup && popup instanceof HTMLElement
-                    const {errors, hasErrors} = this.validator.validate(this.validatorConfig, this.store.state, target.name)
+                    const popup = document.querySelector(`[data-name=${target.name}]`);
+                    const isHTMLElement = popup && popup instanceof HTMLElement;
+                    const { errors, hasErrors } = this.validator.validate(this.validatorConfig, this.store.state, target.name);
 
-                    const newState = Object.assign({}, this.store.state)
+                    const newState = Object.assign({}, this.store.state);
                     newState.errors = {
                         ...state.errors,
-                        ...errors
-                    }
+                        ...errors,
+                    };
 
                     if (hasErrors) {
-                        this.store.setState(newState)
+                        this.store.setState(newState);
                     } else {
-                        target.name ? this.store.state.errors[target.name] = '' : this.store.state.errors = {}
+                        target.name ? this.store.state.errors[target.name] = '' : this.store.state.errors = {};
                     }
 
                     if (hasErrors && isHTMLElement) {
-                        popup.textContent = this.store.state.errors[target.name]
-                        popup.style.display = 'inline-block'
+                        popup.textContent = this.store.state.errors[target.name];
+                        popup.style.display = 'inline-block';
                     } else if (isHTMLElement) {
-                        popup.style.display = 'none'
-                        popup.textContent = ''
+                        popup.style.display = 'none';
+                        popup.textContent = '';
                     }
                 }
             },
             onInputChange: (event: Event) => {
-                const {target} = event
+                const { target } = event;
                 if (target instanceof HTMLInputElement) {
-                    let state = this.store.state
-                    state[target.name] = target.value
-                    this.store.setState(state)
+                    let state = this.store.state;
+                    state[target.name] = target.value;
+                    this.store.setState(state);
                 }
             },
             onSubmitForm: (event: Event) => {
-                event.preventDefault()
-                const popup = document.querySelectorAll(`.error-span`)
-                const {errors, hasErrors} = this.validator.validate(this.validatorConfig, this.store.state)
+                event.preventDefault();
+                const popup = document.querySelectorAll('.error-span');
+                const { errors, hasErrors } = this.validator.validate(this.validatorConfig, this.store.state);
 
-                const newState = Object.assign({}, this.store.state)
+                const newState = Object.assign({}, this.store.state);
                 newState.errors = {
                     ...state.errors,
-                    ...errors
-                }
+                    ...errors,
+                };
 
                 if (hasErrors) {
-                    this.store.setState(newState)
+                    this.store.setState(newState);
                 } else {
-                    this.store.state.errors = {}
+                    this.store.state.errors = {};
                 }
 
                 popup.forEach((element) => {
-                    const fieldName = element.getAttribute('data-name')
+                    const fieldName = element.getAttribute('data-name');
 
                     if (fieldName && this.store.state.errors[fieldName] && element instanceof HTMLElement) {
-                        element.textContent = this.store.state.errors[fieldName]
-                        element.style.display = 'inline-block'
+                        element.textContent = this.store.state.errors[fieldName];
+                        element.style.display = 'inline-block';
                     } else if (fieldName && element instanceof HTMLElement) {
-                        element.textContent = ''
-                        element.style.display = 'none'
+                        element.textContent = '';
+                        element.style.display = 'none';
                     }
-                })
+                });
 
                 console.log({
                     first_name: this.store.state.first_name,
@@ -94,83 +94,83 @@ export class SignUpPage extends Block {
                     phone: this.store.state.phone,
                     login: this.store.state.login,
                     password: this.store.state.password,
-                })
+                });
             },
-        }
-        const vApp = new Templator(template(state)).compile(context, events)
+        };
+        const vApp = new Templator(template(state)).compile(context, events);
 
-        super(vApp, state)
+        super(vApp, state);
 
-        this.validator = new Validator()
+        this.validator = new Validator();
         this.validatorConfig = {
             first_name: {
                 isRequired: {
-                    message: "First name field is required"
+                    message: 'First name field is required',
                 },
                 isPersonName: {
-                    message: 'The first letter must be capitalized, no spaces and no numbers'
-                }
+                    message: 'The first letter must be capitalized, no spaces and no numbers',
+                },
             },
             second_name: {
                 isRequired: {
-                    message: "First name field is required"
+                    message: 'First name field is required',
                 },
                 isPersonName: {
-                    message: 'The first letter must be capitalized, no spaces and no numbers'
-                }
+                    message: 'The first letter must be capitalized, no spaces and no numbers',
+                },
             },
             phone: {
                 isRequired: {
-                    message: "Phone name field is required"
+                    message: 'Phone name field is required',
                 },
                 isPhone: {
-                    message: 'The phone number must contain from 10 to 15 characters, consists of numbers, may begin with a plus'
-                }
+                    message: 'The phone number must contain from 10 to 15 characters, consists of numbers, may begin with a plus',
+                },
             },
             email: {
                 isRequired: {
-                    message: "Email field is required"
+                    message: 'Email field is required',
                 },
                 isEmail: {
-                    message: "Incorrect email"
-                }
+                    message: 'Incorrect email',
+                },
             },
             login: {
                 isRequired: {
-                    message: "Login field is required"
+                    message: 'Login field is required',
                 },
                 isNumberAndLetter: {
-                    message: 'Login must have at least one number and letter'
+                    message: 'Login must have at least one number and letter',
                 },
                 min: {
-                    message: "Login must have at least 3 characters",
-                    value: 3
+                    message: 'Login must have at least 3 characters',
+                    value: 3,
                 },
                 max: {
-                    message: "Login must not exceed 20 characters",
-                    value: 20
-                }
+                    message: 'Login must not exceed 20 characters',
+                    value: 20,
+                },
             },
             password: {
                 isRequired: {
-                    message: "Password field is required"
+                    message: 'Password field is required',
                 },
                 isCapitalSymbol: {
-                    message: "Password must contain at least one capital character"
+                    message: 'Password must contain at least one capital character',
                 },
                 isContainDigit: {
-                    message: "Password must contain at least one digit"
+                    message: 'Password must contain at least one digit',
                 },
                 min: {
-                    message: "Password must have at least 8 characters",
-                    value: 8
+                    message: 'Password must have at least 8 characters',
+                    value: 8,
                 },
                 max: {
-                    message: "Password must not exceed 40 characters",
-                    value: 40
-                }
-            }
-        }
+                    message: 'Password must not exceed 40 characters',
+                    value: 40,
+                },
+            },
+        };
     }
 
     // private validate(fieldName?: string) {

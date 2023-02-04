@@ -2,7 +2,7 @@ import { Templator } from '../../../core/Templator/Templator';
 import { template as authTemplate } from '../../components/form/authForm.tmpl';
 import styles from './styles.module.css';
 
-type SignUpPageProps = Record<string, any>
+type SignUpPageProps = Record<string, any>;
 
 export function template(store: SignUpPageProps): string {
     const signInTemplate = new Templator(authTemplate());

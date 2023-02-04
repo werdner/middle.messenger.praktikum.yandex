@@ -2,11 +2,10 @@ import { Templator } from '../../../core/Templator/Templator';
 import { template as authTemplate } from '../../components/form/authForm.tmpl';
 import styles from './styles.module.css';
 
-type SignInPageProps = Record<string, any>
+type SignInPageProps = Record<string, any>;
 
 export function template(store: SignInPageProps) {
     const signInTemplate = new Templator(authTemplate());
-    const {errors} = store
 
     const fieldsInfo = [
         {
@@ -43,6 +42,6 @@ export function template(store: SignInPageProps) {
         ButtonText: 'Войти',
         LinkText: 'Нет аккаунта?',
         OnClick: 'openSignUpPage',
-        onSubmit: 'onSubmitForm'
+        onSubmit: 'onSubmitForm',
     });
 }

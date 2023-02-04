@@ -27,6 +27,15 @@
             "error",
             { "argsIgnorePattern": "^_$" }
         ],
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                "selector": "memberLike",
+                "modifiers": ["private"],
+                "format": ["camelCase", "snake_case", "PascalCase", "UPPER_CASE"],
+                "leadingUnderscore": "allow"
+            }
+        ],
         "@typescript-eslint/indent": "off",
         "@typescript-eslint/no-use-before-define": "off",
         "@typescript-eslint/default-param-last": "off",

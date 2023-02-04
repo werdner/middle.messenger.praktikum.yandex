@@ -1,13 +1,13 @@
 import { EventBus } from './EventBus';
 import { VDom, VTree } from './vdom/index';
-import {mount} from "./vdom/mount";
-import {render} from "./vdom/render";
+import { mount } from './vdom/mount';
+import { render } from './vdom/render';
 
 type Store = {
     state: Record<string, any>,
     onStateChanged: () => void,
     setState: (nextState: Record<string, any>) => void
-}
+};
 
 export class Block {
     static EVENTS: Record<string, string> = {
@@ -17,17 +17,17 @@ export class Block {
         FLOW_CDU: 'flow:component-did-update',
     };
 
-    private vDom: VDom
+    private vDom: VDom;
     private meta: VTree;
     private eventBus: () => EventBus;
-    private root?: Node
-    private element?: VTree
-    protected store: Store
+    private root?: Node;
+    private element?: VTree;
+    protected store: Store;
 
     constructor(vTree?: VTree | null, state?: Store['state']) {
         const eventBus = new EventBus();
 
-        this.vDom = new VDom()
+        this.vDom = new VDom();
         this.meta = this.makeMetaProxy({
             tagName: vTree?.tagName ?? 'fragment',
             attrs: vTree?.attrs ?? {},
@@ -40,8 +40,8 @@ export class Block {
             setState(nextState) {
                 this.state = nextState;
                 this.onStateChanged();
-            }
-        })
+            },
+        });
 
 
         this.eventBus = () => eventBus;
@@ -97,13 +97,13 @@ export class Block {
     }
 
     private makeStoreProxy(store: Store) {
-        const self: Block = this
+        const self: Block = this;
 
         return new Proxy(store, {
             set(target, prop: keyof Store, nextValue) {
                 if (target[prop] !== nextValue) {
-                    target[prop] = nextValue
-                    self.store = target
+                    target[prop] = nextValue;
+                    self.store = target;
                 }
 
                 return true;
@@ -111,12 +111,12 @@ export class Block {
             deleteProperty() {
                 throw new Error('Отказано в доступе');
             },
-        })
+        });
     }
 
     public render() {
-        if (!this.element) return
-        const app = render(this.element)
+        if (!this.element) return;
+        const app = render(this.element);
 
         this.root = mount(app, document.getElementById('root'));
     }
@@ -127,15 +127,15 @@ export class Block {
     }
 
     private makeMetaProxy(meta: VTree) {
-        const self: Block = this
+        const self: Block = this;
 
         return new Proxy(meta, {
             set(target, prop: keyof VTree, nextValue) {
                 if (target[prop] !== nextValue) {
-                    target[prop] = nextValue
-                    self.meta = target
-                    self.eventBus().emit(Block.EVENTS.FLOW_CDU,{ ...target, [prop]: nextValue })
-                    self.render()
+                    target[prop] = nextValue;
+                    self.meta = target;
+                    self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target, [prop]: nextValue });
+                    self.render();
 
                 }
 
@@ -144,6 +144,6 @@ export class Block {
             deleteProperty() {
                 throw new Error('Отказано в доступе');
             },
-        })
+        });
     }
 }

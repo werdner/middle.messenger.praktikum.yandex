@@ -9,7 +9,7 @@ export type InputProps = {
         placeholder: string
         value: string
     }
-}
+};
 
 export const inputTemplate = (item: InputProps, isEditMode: boolean = false) => {
     const getField = () => {
@@ -18,19 +18,19 @@ export const inputTemplate = (item: InputProps, isEditMode: boolean = false) => 
                 ...item.input,
                 onInput: 'onInputChange',
                 onBlur: 'onInputBlur',
-            }
+            };
             return (`
                 <div className="${styles['input__container']}">
                     ${input(props)}
                     <span className="${styles['input-error']} error-span" data-name="${item.input.name}" />
                 </div>
-            `)
+            `);
         } else {
             return (`
                <p className="${styles['item__value']}">${item.input.value}</p>
-            `)
+            `);
         }
-    }
+    };
 
     return (`
         <li className="${styles['user__info__item']}">

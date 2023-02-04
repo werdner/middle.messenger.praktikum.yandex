@@ -1,19 +1,19 @@
 import styles from './styles.module.css';
 import { Templator } from '../../../core/Templator/Templator';
 import { template as userAvatar } from '../../components/userAvatar/userAvatar.tmpl';
-import {InputProps, inputTemplate} from "./index";
-import {button, ButtonProps} from "../../components/button/button.tmpl";
+import { InputProps, inputTemplate } from './index';
+import { button, ButtonProps } from '../../components/button/button.tmpl';
 
 type Store = {
     fieldsInfo: InputProps[]
     adjustSettingButtons: ButtonProps[]
     saveSettingButtons: ButtonProps[]
-}
+};
 
-type Props = Record<string, any>
+type Props = Record<string, any>;
 
 function getInfoList(profilePageProps: Props) {
-    const {isEditMode, userInfo} = profilePageProps
+    const { isEditMode, userInfo } = profilePageProps;
     const store: Store = {
         fieldsInfo: [
             {
@@ -110,8 +110,8 @@ function getInfoList(profilePageProps: Props) {
 }
 
 export function template(profilePageProps: Props) {
-    const formMeta = getInfoList(profilePageProps)
-    const {InfoList, ProfileSettingButtons} = formMeta
+    const formMeta = getInfoList(profilePageProps);
+    const { InfoList, ProfileSettingButtons } = formMeta;
 
     const pageTemplate =  `
         <div className="${styles['profile__container']}">
@@ -139,6 +139,6 @@ export function template(profilePageProps: Props) {
         UserName: 'Иван',
         onClick: 'openChatsPage',
         InfoList,
-        ProfileSettingButtons
+        ProfileSettingButtons,
     });
 }

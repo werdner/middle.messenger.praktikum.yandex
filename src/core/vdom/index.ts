@@ -1,1 +1,1 @@
-export {VDom, VTree} from './VDom'
+export { VDom, VTree } from './VDom';

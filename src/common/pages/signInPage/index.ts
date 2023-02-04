@@ -1,4 +1,4 @@
-import {template} from './signInPage.tmpl'
-import {SignInPage} from './signInPage'
+import { template } from './signInPage.tmpl';
+import { SignInPage } from './signInPage';
 
-export {SignInPage, template}
+export { SignInPage, template };

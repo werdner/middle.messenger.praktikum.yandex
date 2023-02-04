@@ -8,7 +8,7 @@ type Props = {
     onInput?: string
     onBlur?: string
     additionalClassName?: string
-}
+};
 
 export const input = ({
     type = 'text',

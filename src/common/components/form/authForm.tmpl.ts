@@ -1,6 +1,5 @@
 import styles from './styles.module.css';
 import { button } from '../button/button.tmpl';
-import {validateByField} from "../../../utils/validator";
 
 export function template(): string {
     return `

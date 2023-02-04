@@ -4,7 +4,7 @@ import { SignUpPage } from '../../common/pages/signUpPage/index';
 import { ChatPage } from '../../common/pages/chatPage/index';
 import { Error500Page } from '../../common/pages/500/index';
 import { Error404Page } from '../../common/pages/404/index';
-import {ProfilePage} from "../../common/pages/profilePage/index";
+import { ProfilePage } from '../../common/pages/profilePage/index';
 
 export const router = new Router('app', [
     {
@@ -25,7 +25,7 @@ export const router = new Router('app', [
     },
     {
         page: new ProfilePage(),
-        path: '/profile'
+        path: '/profile',
     },
     {
         page: new Error500Page(),

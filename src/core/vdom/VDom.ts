@@ -6,7 +6,7 @@ export type VTree = {
     children: (VTree | string)[]
 };
 
-type Patch = (node: Node) => Node | undefined
+type Patch = (node: Node) => Node | undefined;
 
 export class VDom {
     createElement = (tagName = 'fragment', { attrs = {}, children = [] }: Omit<VTree, 'tagName'>): VTree => {
@@ -29,33 +29,33 @@ export class VDom {
 
     diffAttrs = (oldAttrs: VTree['attrs'], newAttrs: VTree['attrs']) => {
         const patches: ((node: HTMLElement) => HTMLElement)[] = [];
-        const keys = Object.keys(newAttrs)
+        const keys = Object.keys(newAttrs);
 
         for (let i = 0; i < keys.length; i++) {
-            const key = keys[i]
-            const value = newAttrs[key]
-            const oldValue = oldAttrs[key]
+            const key = keys[i];
+            const value = newAttrs[key];
+            const oldValue = oldAttrs[key];
 
             patches.push((node: HTMLElement) => {
                 if (typeof value === 'string') {
-                    if (value === oldAttrs[key]) return node
+                    if (value === oldAttrs[key]) return node;
 
                     if (key === 'className') {
-                        const oldClasses = typeof oldValue === 'string' ? oldValue.split(' ') : []
+                        const oldClasses = typeof oldValue === 'string' ? oldValue.split(' ') : [];
                         const newClasses = value.split(' ');
 
                         for (let k = 0; k < Math.max(oldClasses.length, newClasses.length); k++) {
                             switch (true) {
                                 case newClasses[k] !== oldClasses[k]:
-                                    node.classList.remove(oldClasses[k])
-                                    node.classList.add(newClasses[k])
-                                    break
+                                    node.classList.remove(oldClasses[k]);
+                                    node.classList.add(newClasses[k]);
+                                    break;
                                 case !newClasses[k] && oldClasses[k]:
-                                    node.classList.remove(oldClasses[k])
-                                    break
+                                    node.classList.remove(oldClasses[k]);
+                                    break;
                                 default:
-                                    node.classList.add(newClasses[k])
-                                    break
+                                    node.classList.add(newClasses[k]);
+                                    break;
                             }
                         }
                     } else {
@@ -63,7 +63,7 @@ export class VDom {
                     }
                 }
                 return node;
-            })
+            });
         }
 
         for (const key in oldAttrs) {
@@ -96,12 +96,12 @@ export class VDom {
         const childPatches: Patch[] = [];
 
         oldVChildren.forEach((oldVChild, i) => {
-            const patch = this.diff(oldVChild, newVChildren[i])
+            const patch = this.diff(oldVChild, newVChildren[i]);
             if (patch)childPatches.push(patch);
         });
 
         const additionalPatches: Patch[] = [];
-        const shouldReplaceChildren = oldVChildren.length === 0
+        const shouldReplaceChildren = oldVChildren.length === 0;
 
         for (const additionalVChild of newVChildren.slice(oldVChildren.length)) {
             additionalPatches.push((node: Node) => {
@@ -141,9 +141,9 @@ export class VDom {
             typeof newVTree === 'string') {
             if (oldVTree !== newVTree) {
                 return (node: Node) => {
-                    const newNode = render(newVTree)
+                    const newNode = render(newVTree);
                     if (node instanceof HTMLElement || node instanceof Text) {
-                        node.replaceWith(newNode)
+                        node.replaceWith(newNode);
                     }
                         return newNode;
                 };
@@ -154,12 +154,12 @@ export class VDom {
 
         if (oldVTree.tagName !== newVTree.tagName) {
             return (node) => {
-                const newNode = render(newVTree)
+                const newNode = render(newVTree);
                 if (node instanceof HTMLElement) {
-                    node.replaceWith(newNode)
+                    node.replaceWith(newNode);
                 }
-                return newNode
-            }
+                return newNode;
+            };
         }
 
         const patchAttrs = this.diffAttrs(oldVTree.attrs, newVTree.attrs);
@@ -167,10 +167,10 @@ export class VDom {
 
         return (node: Node) => {
             if (node instanceof HTMLElement) {
-                patchAttrs(node)
+                patchAttrs(node);
             }
-            patchChildren(node)
-            return node
+            patchChildren(node);
+            return node;
         };
     }
 

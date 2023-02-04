@@ -6,9 +6,9 @@ export type ButtonProps = {
     variant?: 'blue' | 'ghost' | 'red',
     additionalClassName?: string,
     type?: string
-}
+};
 
-export const button =(
+export const button = (
     value: ButtonProps['value'] = '',
     onClick: ButtonProps['onClick']  = '',
     variant: ButtonProps['variant']  = 'blue',
