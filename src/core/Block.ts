@@ -3,7 +3,7 @@ import { VDom, VTree } from './vdom/index';
 import { mount } from './vdom/mount';
 import { render } from './vdom/render';
 
-type Store = {
+export type Store = {
     state: Record<string, any>,
     onStateChanged: () => void,
     setState: (nextState: Record<string, any>) => void

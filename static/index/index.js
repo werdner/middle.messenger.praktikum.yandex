@@ -1,10 +1,13 @@
 import { router } from '../../src/core/Router';
-import './index.css';
-import { NavBar } from '../../src/common/components/ui/navBar/navBar';
+import { NavBar } from '../../src/common/components/ui/navBar/index';
 import { render } from '../../src/core/vdom/render';
+import './index.css';
 
 const body = document.querySelector('body');
-const nav = render(new NavBar().render());
-body.prepend(nav);
+const main = document.querySelector('main')
+const nav = render(new NavBar().getContent())
+
+main.prepend(nav)
+body.append(main)
 
 router.start('/sign-in');

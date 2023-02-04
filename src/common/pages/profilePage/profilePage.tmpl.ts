@@ -1,8 +1,8 @@
 import styles from './styles.module.css';
 import { Templator } from '../../../core/Templator/Templator';
-import { template as userAvatar } from '../../components/userAvatar/userAvatar.tmpl';
+import { template as userAvatar } from '../../templates/userAvatar/userAvatar.tmpl';
 import { InputProps, inputTemplate } from './index';
-import { button, ButtonProps } from '../../components/button/button.tmpl';
+import { button, ButtonProps } from '../../templates/button/button.tmpl';
 
 type Store = {
     fieldsInfo: InputProps[]
@@ -13,7 +13,7 @@ type Store = {
 type Props = Record<string, any>;
 
 function getInfoList(profilePageProps: Props) {
-    const { isEditMode, userInfo } = profilePageProps;
+    const { isEditMode, email, login, first_name, second_name, display_name, phone } = profilePageProps;
     const store: Store = {
         fieldsInfo: [
             {
@@ -22,7 +22,7 @@ function getInfoList(profilePageProps: Props) {
                     type: 'text',
                     name: 'email',
                     placeholder: 'pochta@yandex.ru',
-                    value: userInfo.email,
+                    value: email,
                 },
             },
             {
@@ -31,7 +31,7 @@ function getInfoList(profilePageProps: Props) {
                     type: 'text',
                     name: 'login',
                     placeholder: 'ivanivanov',
-                    value: userInfo.login,
+                    value: login,
                 },
             },
             {
@@ -40,7 +40,7 @@ function getInfoList(profilePageProps: Props) {
                     type: 'text',
                     name: 'first_name',
                     placeholder: 'Иван',
-                    value: userInfo.first_name,
+                    value: first_name,
                 },
             },
             {
@@ -49,7 +49,7 @@ function getInfoList(profilePageProps: Props) {
                     type: 'text',
                     name: 'second_name',
                     placeholder: 'Иванов',
-                    value: userInfo.second_name,
+                    value: second_name,
                 },
             },
             {
@@ -58,7 +58,7 @@ function getInfoList(profilePageProps: Props) {
                     type: 'text',
                     name: 'display_name',
                     placeholder: 'Иван',
-                    value: userInfo.display_name,
+                    value: display_name,
                 },
             },
             {
@@ -67,7 +67,7 @@ function getInfoList(profilePageProps: Props) {
                     type: 'tel',
                     name: 'phone',
                     placeholder: '+79099673030',
-                    value: userInfo.phone,
+                    value: phone,
                 },
             },
         ],

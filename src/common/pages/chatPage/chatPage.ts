@@ -2,11 +2,11 @@ import { Templator } from '../../../core/Templator/index';
 import { template } from './index';
 import { router } from '../../../core/Router';
 import { Block } from '../../../core/Block';
-import { Validator } from '../../../utils/validator';
+import {InputValidator} from "../../../utils/inputValidator";
 
 export class ChatPage extends Block {
     private readonly validatorConfig;
-    private validator: Validator;
+    private inputValidator: InputValidator
 
     constructor(context?: object) {
         const state = {
@@ -16,58 +16,22 @@ export class ChatPage extends Block {
 
         const events = {
             openProfilePage: () => router.start('/profile'),
-            onSendMessageBlur: () => {
-                const popup = document.querySelector('.popup-error');
-                const isHTMLElement = popup && popup instanceof HTMLElement;
-                const { errors, hasErrors } = this.validator.validate(this.validatorConfig, this.store.state, 'message');
+            onSendMessageBlur: (event: Event) => {
+                this.inputValidator.onInputBlur(event)
+                const popup = document.querySelector('.error-span');
 
-                const newState = Object.assign({}, this.store.state);
-                newState.errors = {
-                    ...state.errors,
-                    ...errors,
-                };
-
-                if (hasErrors) {
-                    this.store.setState(newState);
-                } else {
-                    this.store.state.errors['message'] = '';
-                }
-
-                if (hasErrors && isHTMLElement) {
-                    popup.textContent = this.store.state.errors['message'];
-                    popup.style.display = 'inline-block';
-                }
-
-                if (isHTMLElement) {
+                if (popup instanceof HTMLElement && this.store.state.errors.message) {
                     setTimeout(() => {
                         popup.style.display = 'none';
                         popup.textContent = '';
                     }, 3000);
                 }
             },
-            onSendMessage: () => {
-                const popup = document.querySelector('.popup-error');
-                const isHTMLElement = popup && popup instanceof HTMLElement;
-                const { errors, hasErrors } = this.validator.validate(this.validatorConfig, this.store.state, 'message');
+            onSendMessage: (event: Event) => {
+                this.inputValidator.onInputBlur(event)
+                const popup = document.querySelectorAll('.error-span');
 
-                const newState = Object.assign({}, this.store.state);
-                newState.errors = {
-                    ...state.errors,
-                    ...errors,
-                };
-
-                if (hasErrors) {
-                    this.store.setState(newState);
-                } else {
-                    this.store.state.errors['message'] = '';
-                }
-
-                if (hasErrors && isHTMLElement) {
-                    popup.textContent = this.store.state.errors['message'];
-                    popup.style.display = 'inline-block';
-                }
-
-                if (isHTMLElement) {
+                if (popup instanceof HTMLElement && this.store.state.errors.message) {
                     setTimeout(() => {
                         popup.style.display = 'none';
                         popup.textContent = '';
@@ -92,38 +56,14 @@ export class ChatPage extends Block {
 
         super(vApp, state);
 
-        this.validator = new Validator();
         this.validatorConfig = {
             message: {
                 isRequired: {
-                    message: 'Message field is required',
+                    message: 'Поле сообщения не должно быть пустым',
                 },
             },
         };
-    }
 
-    // private validate(fieldName?: string) {
-    //     let errors = {}
-    //
-    //     if (fieldName) {
-    //         errors = validateByField({fieldName, value: this.store.state[fieldName]}, this.validatorConfig);
-    //     } else {
-    //         errors = validateAll(this.store.state, this.validatorConfig);
-    //     }
-    //
-    //     const state = this.store.state
-    //     const errorsLength = Object.keys(errors).length
-    //
-    //     if (errorsLength > 0) {
-    //         state.errors = {
-    //             ...state.errors,
-    //             ...errors
-    //         }
-    //     } else {
-    //         fieldName ? state.errors[fieldName] = '' : state.errors = {}
-    //     }
-    //
-    //     this.store.setState(state)
-    //     return errorsLength !== 0;
-    // };
+        this.inputValidator = new InputValidator(this.store, this.validatorConfig)
+    }
 }

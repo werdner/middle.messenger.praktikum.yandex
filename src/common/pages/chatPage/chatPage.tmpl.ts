@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 import { Templator } from '../../../core/Templator/Templator';
-import { template as userAvatar } from '../../components/userAvatar/userAvatar.tmpl';
+import { template as userAvatar } from '../../templates/userAvatar/userAvatar.tmpl';
 
 type ChatProps = Record<string, any>;
 
@@ -65,7 +65,7 @@ export function template(props: ChatProps) {
                             type="button"
                             onclick="onSendMessage"
                         />
-                        <span className="${styles['send__message__popup']} popup-error" />
+                        <span className="${styles['send__message__popup']} error-span" data-name="${'message'}" />
                     </div>
                 </footer>
             </article>

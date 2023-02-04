@@ -1,5 +1,5 @@
 import { Templator } from '../../../core/Templator/Templator';
-import { template as authTemplate } from '../../components/form/authForm.tmpl';
+import { template as authTemplate } from '../../templates/form/authForm.tmpl';
 import styles from './styles.module.css';
 
 type SignUpPageProps = Record<string, any>;

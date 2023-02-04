@@ -7,6 +7,7 @@ enum METHODS {
 }
 
 type TRequestData = Record<string, string | number>;
+type TMethodRequest = (url: string, options: TRequestOptions) => Promise<XMLHttpRequest>
 
 export type TRequestOptions = {
     method?: METHODS
@@ -30,27 +31,27 @@ class HTTPTransport {
         this._parentPath = _parentPath;
     }
 
-    public get = (url: string, options = {}): Promise<XMLHttpRequest> => {
+    public get: TMethodRequest = (url, options = {}) => {
         return this.request(url, { ...options, method: METHODS.GET });
     };
 
-    public post = (url: string, options = {}): Promise<XMLHttpRequest> => {
+    public post: TMethodRequest = (url, options = {}) => {
         return this.request(url, { ...options, method: METHODS.POST });
     };
 
-    public put = (url: string, options = {}): Promise<XMLHttpRequest> => {
+    public put: TMethodRequest = (url, options = {}) => {
         return this.request(url, { ...options, method: METHODS.PUT });
     };
 
-    public patch = (url: string, options = {}): Promise<XMLHttpRequest> => {
+    public patch: TMethodRequest = (url, options = {}) => {
         return this.request(url, { ...options, method: METHODS.PATCH });
     };
 
-    public delete = (url: string, options = {}): Promise<XMLHttpRequest> => {
+    public delete: TMethodRequest = (url, options = {}) => {
         return this.request(url, { ...options, method: METHODS.DELETE });
     };
 
-    request = (url: string, options: TRequestOptions): any => {
+    request: TMethodRequest = (url, options) => {
         const {
             method = METHODS.GET,
             headers = {},

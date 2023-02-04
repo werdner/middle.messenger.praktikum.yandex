@@ -1,5 +1,5 @@
 import { Templator } from '../../../core/Templator/Templator';
-import { template as errorContainer } from '../../components/errorContainer/errorContainer.tmpl';
+import { template as errorContainer } from '../../templates/errorContainer/errorContainer.tmpl';
 
 export function template() {
     const errorContainerTemplate = new Templator(errorContainer());

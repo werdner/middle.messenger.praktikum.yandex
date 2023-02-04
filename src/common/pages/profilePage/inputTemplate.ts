@@ -1,5 +1,5 @@
 import styles from './styles.module.css';
-import { input } from '../../components/input/input.tmpl';
+import { input } from '../../templates/input/input.tmpl';
 
 export type InputProps = {
     title: string
