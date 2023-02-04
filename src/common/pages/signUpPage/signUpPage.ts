@@ -20,7 +20,7 @@ export class SignUpPage extends Block {
         };
 
         const events = {
-            openSignUpPage: () => router.start('/sign-in'),
+            openSignInPage: () => router.start('/sign-in'),
             onInputBlur: (event: Event) => {
                 const { target } = event;
 

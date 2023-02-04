@@ -15,7 +15,6 @@
 .chat__column-left {
     width: 310px;
     min-width: 250px;
-    padding: 21px 0 14px;
     background: var(--light-white);
     border-right: 1px solid var(--dirty-white);
     padding: 0 10px;
@@ -101,7 +100,7 @@
     border: none;
     width: 32px;
     height: 32px;
-    background: url("../../../../static/assets/blue-clip.svg");
+    background: url('../../../../static/assets/blue-clip.svg');
     cursor: pointer;
 }
 
@@ -109,7 +108,7 @@
     border: none;
     width: 32px;
     height: 32px;
-    background: url("../../../../static/assets/blue-arrow.svg") no-repeat;
+    background: url('../../../../static/assets/blue-arrow.svg') no-repeat;
     cursor: pointer;
     transform: rotate(180deg);
 }
@@ -142,7 +141,7 @@
 }
 
 .send__message__popup::after {
-    content: "";
+    content: '';
     width: 10px;
     bottom: -4.5px;
     right: 9px;

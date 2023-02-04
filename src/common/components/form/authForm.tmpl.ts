@@ -11,7 +11,7 @@ export function template(): string {
                     button('{{ ButtonText }}', '{{ onSubmit }}', 'blue', styles['auth__button_submit'], 'submit')
                 }
                 ${
-                    button('{{ LinkText }}', '{{ OnClick }}', 'ghost', styles['auth__bottom-button'])
+                    button('{{ LinkText }}', '{{ OnClick }}', 'ghost', styles['auth__bottom-button'], 'click')
                 }
             </form>
         </div>

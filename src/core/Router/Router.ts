@@ -1,6 +1,3 @@
-import { render } from '../vdom/render';
-import { mount } from '../vdom/mount';
-
 export type Route = {
     path: string
     page: object & {
@@ -9,16 +6,12 @@ export type Route = {
 };
 
 export class Router {
-    private name;
-    private render;
     private routes;
-    private mount;
+    public name
 
     constructor(name: string, routes: Route[]) {
-        this.name = name;
-        this.render = render;
         this.routes = routes;
-        this.mount = mount;
+        this.name = name
     }
 
     getPageByPath(path: string) {

@@ -17,7 +17,7 @@
     border: none;
     width: 28px;
     height: 28px;
-    background: url("../../../../static/assets/blue-arrow.svg");
+    background: url('../../../../static/assets/blue-arrow.svg');
 }
 
 .profile__column-right {
@@ -70,7 +70,8 @@
     outline: none;
 }
 
-.item__field::placeholder, .item__value {
+.item__field::placeholder,
+ .item__value {
     margin: 0;
     font-size: var(--title);
     font-family: Inter, sans-serif;
@@ -78,7 +79,7 @@
 }
 
 .item__field::placeholder {
-    color: var(--gray)
+    color: var(--gray);
 }
 
 .item__value {
