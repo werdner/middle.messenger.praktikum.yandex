@@ -1,38 +1,38 @@
-import {Templator} from '../../../../utils/Templator'
-import {template} from './navBar.tmpl'
-import {router} from '../../../../utils/Router';
+import { Templator } from '../../../../core/Templator/Templator';
+import { template } from './navBar.tmpl';
+import { router } from '../../../../core/Router';
 
 export class NavBar {
-    #navBarTemplator
-    #context
+    #navBarTemplator;
+    #context;
 
     constructor(context) {
-        this.#navBarTemplator = new Templator(template())
-        this.#context = context
+        this.#navBarTemplator = new Templator(template());
+        this.#context = context;
     }
 
     #open500ErrorPage() {
-        router.start('/500')
+        router.start('/500');
     }
 
     #open404ErrorPage() {
-        router.start('/404')
+        router.start('/404');
     }
 
     #openProfilePage() {
-        router.start('/profile')
+        router.start('/profile');
     }
 
     #openChatsPage() {
-        router.start('/chats')
+        router.start('/chats');
     }
 
     #openSignUpPage() {
-        router.start('/sign-up')
+        router.start('/sign-up');
     }
 
     #openSignInPage() {
-        router.start('/sign-in')
+        router.start('/sign-in');
     }
 
     render() {
@@ -42,7 +42,7 @@ export class NavBar {
             openProfilePage: this.#openProfilePage,
             openChatsPage: this.#openChatsPage,
             openSignUpPage: this.#openSignUpPage,
-            openSignInPage: this.#openSignInPage
-        })
+            openSignInPage: this.#openSignInPage,
+        });
     }
 }

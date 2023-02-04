@@ -1,33 +1,33 @@
-import * as styles from './styles.module.css'
-import {Templator} from "../../../../utils/Templator";
+import * as styles from './styles.module.css';
+import { Templator } from '../../../../core/Templator/Templator';
 
 export function template() {
     const LinksList = [
         {
             title: '404',
-            method: 'open404ErrorPage'
+            method: 'open404ErrorPage',
         },
         {
             title: '500',
-            method: 'open500ErrorPage'
+            method: 'open500ErrorPage',
         },
         {
             title: 'sing-in',
-            method: 'openSignInPage'
+            method: 'openSignInPage',
         },
         {
             title: 'sign-up',
-            method: 'openSignUpPage'
+            method: 'openSignUpPage',
         },
         {
             title: 'chats',
-            method: 'openChatsPage'
+            method: 'openChatsPage',
         },
         {
             title: 'profile',
-            method: 'openProfilePage'
-        }
-    ]
+            method: 'openProfilePage',
+        },
+    ];
 
     const navBartTemplate =  new Templator(`
         <nav className="${styles['navbar__container']}">
@@ -37,7 +37,7 @@ export function template() {
                 {{ LinksList }}
             </ul>
         </nav>
-    `)
+    `);
 
     const getLinks = () => {
         return LinksList.map((link) => {
@@ -50,11 +50,11 @@ export function template() {
                         ${link.title}
                     </button>
                 </li>
-            `
-        })
-    }
+            `;
+        });
+    };
 
     return navBartTemplate.prepareToCompile({
-        LinksList: getLinks()
-    })
+        LinksList: getLinks(),
+    });
 }

@@ -4,12 +4,12 @@
     background: var(--dirty-white);
 }
 
-.size-xl {
+.xl {
     width: 130px;
     height: 130px;
 }
 
-.size-l {
+.l {
     width: 47px;
     height: 47px;
 }

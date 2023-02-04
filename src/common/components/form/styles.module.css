@@ -25,7 +25,7 @@
     flex-direction: column;
     flex-grow: 1;
     justify-content: space-between;
-    min-width: 280px;
+    width: 280px;
 }
 
 .auth__bottom-button {

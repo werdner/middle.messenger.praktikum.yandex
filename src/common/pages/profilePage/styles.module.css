@@ -61,7 +61,7 @@
 
 .item__field {
     text-align: end;
-    width: fit-content;
+    max-width: 200px;
     padding: 10px 0;
     border: none;
 }
@@ -109,4 +109,21 @@
 
 .setting-buttons__list button:not(:last-of-type) {
     border-bottom: 1px solid var(--dirty-white);
+}
+
+.input-error {
+    display: none;
+    color: var(--red);
+    max-width: 400px;
+    text-align: end;
+}
+
+.input__container {
+    display: flex;
+    align-items: end;
+    flex-direction: column;
+}
+
+.input__container input {
+    padding: 0;
 }
