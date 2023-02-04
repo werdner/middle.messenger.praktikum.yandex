@@ -1,7 +1,5 @@
 {
-  "extends": [
-    "stylelint-config-sass-guidelines"
-  ],
+  "extends": [],
 
   "rules": {
     "color-hex-case": "lower",
