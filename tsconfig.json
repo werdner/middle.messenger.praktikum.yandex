@@ -1,8 +1,14 @@
 {
   "compilerOptions": {
-    "plugins": [{ "name": "typescript-plugin-css-modules" }],
-    "target": "es2020",
+    "isolatedModules": true,
     "module": "commonjs",
+    "target": "es2020",
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "plugins": [{ "name": "typescript-plugin-css-modules" }],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
