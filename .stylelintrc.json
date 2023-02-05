@@ -1,0 +1,17 @@
+{
+  "extends": "stylelint-config-standard",
+
+  "rules": {
+    "color-hex-case": "lower",
+    "string-quotes": "single",
+    "import-notation": null,
+    "indentation": null,
+    "selector-class-pattern": null,
+    "color-hex-case": "upper"
+  },
+  "ignoreFiles": [
+    "dist/*",
+    "node_modules/*",
+    ".parcel-cache/*"
+  ]
+}

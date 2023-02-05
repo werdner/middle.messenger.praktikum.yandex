@@ -1,24 +1,20 @@
 :root {
-    /*colors*/
+    /* colors */
 
     --dark-blue: #3369F3;
-    --red: #FF0000;
-
-    --white: #FFFFFF;
+    --red: #F00;
+    --white: #FFF;
     --light-white: #FBFBFB;
     --dirty-white: #EAEAEA;
-    --gray: #999999;
-
+    --gray: #999;
     --black: #1E1E1E;
 
-    /*fonts*/
+    /* fonts */
 
     --big-title: 40px;
     --body-title: 20px;
-
     --title: 13px;
     --regular: 12px;
-
     --links: 11px;
 }
 

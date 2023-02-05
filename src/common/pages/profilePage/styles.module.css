@@ -17,7 +17,7 @@
     border: none;
     width: 28px;
     height: 28px;
-    background: url("../../../../static/assets/blue-arrow.svg");
+    background: url('../../../../static/assets/blue-arrow.svg');
 }
 
 .profile__column-right {
@@ -61,7 +61,7 @@
 
 .item__field {
     text-align: end;
-    width: fit-content;
+    max-width: 200px;
     padding: 10px 0;
     border: none;
 }
@@ -70,7 +70,8 @@
     outline: none;
 }
 
-.item__field::placeholder, .item__value {
+.item__field::placeholder,
+ .item__value {
     margin: 0;
     font-size: var(--title);
     font-family: Inter, sans-serif;
@@ -78,7 +79,7 @@
 }
 
 .item__field::placeholder {
-    color: var(--gray)
+    color: var(--gray);
 }
 
 .item__value {
@@ -109,4 +110,21 @@
 
 .setting-buttons__list button:not(:last-of-type) {
     border-bottom: 1px solid var(--dirty-white);
+}
+
+.input-error {
+    display: none;
+    color: var(--red);
+    max-width: 400px;
+    text-align: end;
+}
+
+.input__container {
+    display: flex;
+    align-items: end;
+    flex-direction: column;
+}
+
+.input__container input {
+    padding: 0;
 }

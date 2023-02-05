@@ -7,10 +7,20 @@
     box-sizing: border-box;
 }
 
-.input-field:last-of-type {
+.input_field:last-of-type {
     margin-bottom: 62px;
 }
 
-.input-field:focus {
+.input_field:focus {
     outline: none;
+}
+
+.input-error {
+    display: none;
+    color: var(--red);
+    margin-bottom: 16px;
+}
+
+.input-visible {
+    display: inline-block;
 }

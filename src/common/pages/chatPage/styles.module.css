@@ -15,7 +15,6 @@
 .chat__column-left {
     width: 310px;
     min-width: 250px;
-    padding: 21px 0 14px;
     background: var(--light-white);
     border-right: 1px solid var(--dirty-white);
     padding: 0 10px;
@@ -101,7 +100,7 @@
     border: none;
     width: 32px;
     height: 32px;
-    background: url("../../../../static/assets/blue-clip.svg");
+    background: url('../../../../static/assets/blue-clip.svg');
     cursor: pointer;
 }
 
@@ -109,7 +108,7 @@
     border: none;
     width: 32px;
     height: 32px;
-    background: url("../../../../static/assets/blue-arrow.svg") no-repeat;
+    background: url('../../../../static/assets/blue-arrow.svg') no-repeat;
     cursor: pointer;
     transform: rotate(180deg);
 }
@@ -123,4 +122,36 @@
     border-radius: 30px;
     box-sizing: border-box;
     border: none;
+}
+
+.send__message__container {
+    position: relative;
+}
+
+.send__message__popup {
+    display: none;
+    top: -45px;
+    background: #626262;
+    right: 0;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+    position: absolute;
+}
+
+.send__message__popup::after {
+    content: '';
+    width: 10px;
+    bottom: -4.5px;
+    right: 9px;
+    height: 10px;
+    background: inherit;
+    border-radius: 1px;
+    position: absolute;
+    transform: rotate(45deg);
+}
+
+.popup-visible {
+    display: inline-block;
 }
