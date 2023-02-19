@@ -1,12 +1,12 @@
-import {Route} from "./Route";
-import {Block} from "../Block";
+import { Route } from './Route';
+import { Block } from '../Block';
 
 export class Router {
-    static _instance: Router | null = null
-    public rootQuery: string | null = null
+    static _instance: Router | null = null;
+    public rootQuery: string | null = null;
 
-    private readonly history: History | null = null
-    private routes: Route[] | null = null
+    private readonly history: History | null = null;
+    private routes: Route[] | null = null;
 
     constructor(rootQuery: string) {
         if (Router._instance) {
@@ -15,7 +15,7 @@ export class Router {
 
         this.routes = [];
         this.history = window.history;
-        this.rootQuery = rootQuery
+        this.rootQuery = rootQuery;
 
         Router._instance = this;
     }
@@ -37,15 +37,15 @@ export class Router {
     }
 
     _onRoute(pathname: string) {
-        const protectedPaths = ['/messenger', '/profile']
+        const protectedPaths = ['/messenger', '/profile'];
         let route = this.getRoute(pathname) ?? this.getRoute('/404');
         if (!route) {
             return;
         }
 
         if (!localStorage.getItem('user') && protectedPaths.includes(pathname)) {
-            route = this.getRoute('/')
-            this.go('/')
+            route = this.getRoute('/');
+            this.go('/');
         }
 
         route?.render();
@@ -53,7 +53,7 @@ export class Router {
 
     go(pathname: string) {
         if (!this.history) {
-            return
+            return;
         }
 
         this.history.pushState({}, '', pathname);

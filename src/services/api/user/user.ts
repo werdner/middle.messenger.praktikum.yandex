@@ -1,5 +1,5 @@
-import {SearchUserRequest, UpdateProfileRequest, UserResponse} from "./types";
-import {api} from "../../../core/HTTP";
+import { SearchUserRequest, UpdateProfileRequest, UserResponse } from './types';
+import { api } from '../../../core/HTTP';
 
 const user = {
     updateProfile: (body: UpdateProfileRequest): Promise<string> => {
@@ -13,4 +13,4 @@ const user = {
     },
 };
 
-export {user};
+export { user };

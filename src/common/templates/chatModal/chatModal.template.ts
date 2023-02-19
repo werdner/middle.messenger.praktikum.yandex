@@ -8,10 +8,10 @@ type ModalProps = {
     onClose: string
     onButtonClick: string
     identifier: string
-}
+};
 
 export const chatModalTemplate = (modalProps: ModalProps) => {
-    const {title, inputTitle, buttonText, onClose, onButtonClick, identifier} = modalProps
+    const { title, inputTitle, buttonText, onClose, onButtonClick, identifier } = modalProps;
 
     return (`
         <div className="${styles['modal__backdrop']} ${identifier}">
@@ -25,5 +25,5 @@ export const chatModalTemplate = (modalProps: ModalProps) => {
                <button className="${styles['chat__modal__button']}" onClick="${onButtonClick}">${buttonText}</button>
             </div>
         </div>
-    `)
-}
+    `);
+};

@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 import { Templator } from '../../../core/Templator/Templator';
-import {template as userAvatar, UserAvatar} from '../../templates/userAvatar/userAvatar.tmpl';
+import { template as userAvatar, UserAvatar } from '../../templates/userAvatar/userAvatar.tmpl';
 import { InputProps, inputTemplate } from './index';
 import { button, ButtonProps } from '../../templates/button/button.tmpl';
 
@@ -112,15 +112,15 @@ function getInfoList(profilePageProps?: Props) {
 
 export function template(profilePageProps?: Props) {
     const formMeta = getInfoList(profilePageProps);
-    const hostResources = 'https://ya-praktikum.tech/api/v2/resources'
+    const hostResources = 'https://ya-praktikum.tech/api/v2/resources';
     const { InfoList, ProfileSettingButtons } = formMeta;
 
     const userAvatarProps: UserAvatar = {
         size: 'xl',
         onAvatarUpload: 'onAvatarUpload',
         src: profilePageProps?.avatar ?  hostResources + profilePageProps?.avatar : '' as string,
-        isEditMode: profilePageProps?.isEditMode as boolean
-    }
+        isEditMode: profilePageProps?.isEditMode as boolean,
+    };
 
     const pageTemplate = () => `
         <div className="${styles['profile__container']}">

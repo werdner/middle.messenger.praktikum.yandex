@@ -1,24 +1,24 @@
-import {Validator} from "./validator";
-import {Store} from "../core/Block";
+import { Validator } from './validator';
+import { Store } from '../core/Block';
 
 export class InputValidator {
-    private validator: Validator
-    private store: Record<string, any>
-    private state: Store['state']
-    private validatorConfig: Record<string, any>
+    private validator: Validator;
+    private store: Record<string, any>;
+    private state: Store['state'];
+    private validatorConfig: Record<string, any>;
 
     constructor(store: Store, validatorConfig: Record<string, any>) {
-        this.store = store
-        this.state = Object.assign({}, store.state)
-        this.validator = new Validator()
-        this.validatorConfig = validatorConfig
+        this.store = store;
+        this.state = Object.assign({}, store.state);
+        this.validator = new Validator();
+        this.validatorConfig = validatorConfig;
     }
 
     public onSubmitForm(event: Event) {
         event.preventDefault();
 
         if ('password_repeat' in this.validatorConfig) {
-            this.validatorConfig.password_repeat.isMatch.password = this.store.state.password
+            this.validatorConfig.password_repeat.isMatch.password = this.store.state.password;
         }
 
         const popup = document.querySelectorAll('.error-span');
@@ -48,7 +48,7 @@ export class InputValidator {
             }
         });
 
-        return hasErrors
+        return hasErrors;
     }
 
     onInputBlur(event: Event) {
@@ -56,7 +56,7 @@ export class InputValidator {
 
         if (target instanceof HTMLInputElement) {
             if ('password_repeat' in this.validatorConfig) {
-                this.validatorConfig.password_repeat.isMatch.password = this.store.state.password
+                this.validatorConfig.password_repeat.isMatch.password = this.store.state.password;
             }
 
             const popup = document.querySelector(`[data-name=${target.name}]`);

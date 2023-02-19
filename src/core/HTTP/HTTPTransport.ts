@@ -1,4 +1,4 @@
-import {isPlainObject} from "../../utils/isPlainObject";
+import { isPlainObject } from '../../utils/isPlainObject';
 
 export enum METHODS {
     GET = 'GET',
@@ -8,7 +8,7 @@ export enum METHODS {
     DELETE = 'DELETE',
 }
 
-type TMethodRequest = (url: string, options: TRequestOptions) => Promise<any>
+type TMethodRequest = (url: string, options: TRequestOptions) => Promise<any>;
 
 export type TRequestOptions = {
     method?: METHODS
@@ -50,7 +50,7 @@ function onload(xhr: XMLHttpRequest, resolve: (value: (XMLHttpRequest | PromiseL
 
         done(isJson ? JSON.parse(xhr.responseText) : xhr.responseText);
         xhr.abort();
-    }
+    };
 }
 
 export class HTTPTransport {
@@ -61,11 +61,11 @@ export class HTTPTransport {
     }
 
     request: TMethodRequest = (url, options) => {
-        const {method = METHODS.GET, timeout = 10000, headers = {}, data} = options || {};
+        const { method = METHODS.GET, timeout = 10000, headers = {}, data } = options || {};
 
         const isFormdata = data instanceof FormData;
 
-        const isGetWithData = (METHODS.GET === method) && isPlainObject(data)
+        const isGetWithData = (METHODS.GET === method) && isPlainObject(data);
 
         const xhr = new XMLHttpRequest();
         const uri = this._parentPath + (isGetWithData ? `${url}${queryStringify(data)}` : url);

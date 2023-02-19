@@ -47,8 +47,8 @@ function getError(validateMethod: ValidateMethod, value: Value, config: Config) 
             statusValidate = value.length > config.value;
             break;
         case 'isMatch':
-            statusValidate = value !== config.password
-            break
+            statusValidate = value !== config.password;
+            break;
         default:
             break;
     }

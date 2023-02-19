@@ -2,16 +2,16 @@ import { Templator } from '../../../core/Templator/index';
 import { template } from './index';
 import { router } from '../../../core/Router';
 import { Block } from '../../../core/Block';
-import {InputValidator} from "../../../utils/inputValidator";
-import {auth} from "../../../services/api/auth/auth";
-import {user} from "../../../services/api/user/user";
-import {replaceNullToString} from "../../../utils/replaceNullToString";
-import {UpdateProfileRequest} from "../../../services/api/user/types";
+import { InputValidator } from '../../../utils/inputValidator';
+import { auth } from '../../../services/api/auth/auth';
+import { user } from '../../../services/api/user/user';
+import { replaceNullToString } from '../../../utils/replaceNullToString';
+import { UpdateProfileRequest } from '../../../services/api/user/types';
 
 export class ProfilePage extends Block {
     private readonly validatorConfig;
-    private inputValidator: InputValidator
-    private pageTemplator?: Templator
+    private inputValidator: InputValidator;
+    private pageTemplator?: Templator;
 
     constructor(context?: object) {
         let state = {
@@ -20,37 +20,37 @@ export class ProfilePage extends Block {
         };
 
         const getUserData = () => {
-            const userData = localStorage.getItem('user')
-             const data = userData ? JSON.parse(userData) : {}
+            const userData = localStorage.getItem('user');
+             const data = userData ? JSON.parse(userData) : {};
 
-            return replaceNullToString(data)
-        }
+            return replaceNullToString(data);
+        };
 
 
-        state = Object.assign(getUserData(), state)
+        state = Object.assign(getUserData(), state);
 
         const events = {
-            onLogOut: async () => await this.logout(),
+            onLogOut: async () => this.logout(),
             openChatsPage: () => router.go('/messenger'),
             onInputBlur: (event: Event) => this.inputValidator.onInputBlur(event),
             onAvatarUpload: async (event: Event) => {
-                const formData = new FormData()
+                const formData = new FormData();
                 const { target } = event;
 
                 if (target instanceof HTMLInputElement) {
-                    const image = target.files?.item(0)
+                    const image = target.files?.item(0);
                     if (!image) return;
                     formData.append('avatar', image);
 
                     const userData = await user.updateAvatar(formData);
                     localStorage.setItem('user', JSON.stringify(userData));
-                    this.store.setState({ ...state, ...replaceNullToString(userData) })
-                    this.setMeta(this.pageTemplator?.updateTemplate(this.store.state))
+                    this.store.setState({ ...state, ...replaceNullToString(userData) });
+                    this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
                 }
             },
             changeEditMode: () => {
                 this.store.setState({ ...this.store.state, isEditMode: !this.store.state.isEditMode });
-                this.setMeta(this.pageTemplator?.updateTemplate(this.store.state))
+                this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
             },
             onInputChange: (event: Event) => {
                 const { target } = event;
@@ -61,9 +61,9 @@ export class ProfilePage extends Block {
                 }
             },
             onSubmitForm: async (event: Event) => {
-                const hasErrors = this.inputValidator.onSubmitForm(event)
+                const hasErrors = this.inputValidator.onSubmitForm(event);
 
-                if (hasErrors) return
+                if (hasErrors) return;
 
                 const { email, first_name, second_name, phone, login, password, display_name } = this.store.state;
                 const userData = {
@@ -74,21 +74,21 @@ export class ProfilePage extends Block {
                     login,
                     password,
                     display_name,
-                }
+                };
 
                 this.store.setState({ ...this.store.state, isEditMode: !this.store.state.isEditMode });
 
-                await this.updateProfile(userData)
-                this.setMeta(this.pageTemplator?.updateTemplate(this.store.state))
+                await this.updateProfile(userData);
+                this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
             },
         };
 
-        const templator = new Templator(template, state)
+        const templator = new Templator(template, state);
         const vApp = templator.compile(context, events);
 
         super(vApp, state);
 
-        this.pageTemplator = templator
+        this.pageTemplator = templator;
 
         this.validatorConfig = {
             display_name: {
@@ -157,35 +157,35 @@ export class ProfilePage extends Block {
             },
         };
 
-        this.inputValidator = new InputValidator(this.store, this.validatorConfig)
+        this.inputValidator = new InputValidator(this.store, this.validatorConfig);
     }
 
     async logout() {
         try {
-            this.store.state.loading = true
+            this.store.state.loading = true;
 
             await auth.logout();
             localStorage.removeItem('user');
             router.go('/');
 
         } catch (error) {
-            alert(error)
+            alert(error);
         } finally {
-            this.store.state.loading = false
+            this.store.state.loading = false;
         }
     }
 
     async updateProfile(userData: UpdateProfileRequest) {
-        let data
+        let data;
 
         try {
-            this.store.state.loading = true
+            this.store.state.loading = true;
             data = await user.updateProfile(userData);
             localStorage.setItem('user', JSON.stringify(data));
         } catch (error) {
-            alert(error)
+            alert(error);
         } finally {
-            this.store.state.loading = false
+            this.store.state.loading = false;
         }
     }
 }

@@ -1,6 +1,6 @@
-import {chat} from "../api/chat/chat";
-import {auth} from "../api/auth/auth";
-import {IConnectFunction, IWebSocketChat, Message} from "./types";
+import { chat } from '../api/chat/chat';
+import { auth } from '../api/auth/auth';
+import { IConnectFunction, IWebSocketChat, Message } from './types';
 
 export class WebSocketChat implements IWebSocketChat {
     private static _instance: WebSocketChat;
@@ -10,8 +10,8 @@ export class WebSocketChat implements IWebSocketChat {
     private interval: number | null;
 
     constructor() {
-        this.socket = null
-        this.interval = null
+        this.socket = null;
+        this.interval = null;
     }
 
     static get instance() {
@@ -23,14 +23,14 @@ export class WebSocketChat implements IWebSocketChat {
     }
 
     getMessages() {
-        this.socket?.send(JSON.stringify({content: '0', type: 'get old'}));
+        this.socket?.send(JSON.stringify({ content: '0', type: 'get old' }));
     }
 
     sendMessage(message: string) {
-        this.socket?.send(JSON.stringify({content: message, type: 'message'}));
+        this.socket?.send(JSON.stringify({ content: message, type: 'message' }));
     }
 
-    async connect({chatId, messages, opened, closed, failed}: IConnectFunction) {
+    async connect({ chatId, messages, opened, closed, failed }: IConnectFunction) {
         if (this.socket?.readyState === WebSocket.OPEN) {
             this.clearInterval();
             this.disconnect();

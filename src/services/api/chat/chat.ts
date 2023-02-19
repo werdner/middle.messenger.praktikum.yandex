@@ -1,4 +1,4 @@
-import {api} from "../../../core/HTTP";
+import { api } from '../../../core/HTTP';
 import {
     AddUserRequest,
     ChatIdResponse,
@@ -6,8 +6,8 @@ import {
     DeleteChatResponse, DeleteUserRequest, GetChatsRequest,
     GetChatsResponse,
     GetChatTokenResponse,
-    GetChatUserRequest, GetUserResponse
-} from "./types";
+    GetChatUserRequest, GetUserResponse,
+} from './types';
 
 const chat = {
     getChats: (body?: GetChatsRequest): Promise<GetChatsResponse[]> => {
@@ -26,11 +26,11 @@ const chat = {
         return api.post(`/chats/token/${chatId}`);
     },
     addUser: (body?: AddUserRequest): Promise<string> => {
-        return api.put(`/chats/users`, body);
+        return api.put('/chats/users', body);
     },
     deleteUser: (body?: DeleteUserRequest): Promise<string> => {
-        return api.delete(`/chats/users`, body);
+        return api.delete('/chats/users', body);
     },
 };
 
-export {chat};
+export { chat };

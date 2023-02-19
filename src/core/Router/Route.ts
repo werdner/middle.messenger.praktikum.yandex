@@ -1,8 +1,8 @@
-import {Block} from "../Block";
+import { Block } from '../Block';
 
 export class Route {
-    private readonly _block: Block | null
-    private _pathname: string
+    private readonly _block: Block | null;
+    private _pathname: string;
 
     constructor(pathname: string, view: Block) {
         this._pathname = pathname;
@@ -21,6 +21,6 @@ export class Route {
     }
 
     render() {
-        this._block?.render()
+        this._block?.render();
     }
 }

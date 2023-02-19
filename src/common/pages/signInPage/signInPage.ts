@@ -2,15 +2,15 @@ import { Templator } from '../../../core/Templator/index';
 import { template } from './index';
 import { router } from '../../../core/Router';
 import { Block } from '../../../core/Block';
-import {InputValidator} from "../../../utils/inputValidator";
-import {SignInRequest} from "../../../services/api/auth/types";
-import {auth} from "../../../services/api/auth/auth";
+import { InputValidator } from '../../../utils/inputValidator';
+import { SignInRequest } from '../../../services/api/auth/types';
+import { auth } from '../../../services/api/auth/auth';
 
 type ValidationConfig = Record<string, Record<string, Record<string, string | number>>>;
 
 export class SignInPage extends Block {
     private readonly validatorConfig?: ValidationConfig;
-    private inputValidator?: InputValidator
+    private inputValidator?: InputValidator;
 
     constructor(context?: object) {
         const state = {
@@ -31,15 +31,15 @@ export class SignInPage extends Block {
                 }
             },
             onSubmitForm: async (event: Event) => {
-                const hasErrors = this.inputValidator?.onSubmitForm(event)
+                const hasErrors = this.inputValidator?.onSubmitForm(event);
                 const userData = {
                     login: this.store.state.login,
                     password: this.store.state.password,
-                }
+                };
 
-                if (hasErrors) return
+                if (hasErrors) return;
 
-                await this.signIn(userData)
+                await this.signIn(userData);
             },
         };
 
@@ -86,12 +86,12 @@ export class SignInPage extends Block {
             },
         };
 
-        this.inputValidator = new InputValidator(this.store, this.validatorConfig)
+        this.inputValidator = new InputValidator(this.store, this.validatorConfig);
     }
 
     async signIn(userData: SignInRequest) {
         try {
-            this.store.state.loading = true
+            this.store.state.loading = true;
 
             await auth.signin(userData);
             const user = await auth.user();
@@ -99,9 +99,9 @@ export class SignInPage extends Block {
 
             router.go('/messenger');
         } catch (error) {
-            alert(error)
+            alert(error);
         } finally {
-            this.store.state.loading = false
+            this.store.state.loading = false;
         }
     }
 }

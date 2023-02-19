@@ -1,8 +1,8 @@
 import styles from './styles.module.css';
 import { Templator } from '../../../core/Templator/Templator';
-import {template as userAvatar, UserAvatar} from '../../templates/userAvatar/userAvatar.tmpl';
-import {chatModalTemplate} from "../../templates/chatModal/chatModal.template";
-import {Message} from "../../../services/sockets/types";
+import { template as userAvatar, UserAvatar } from '../../templates/userAvatar/userAvatar.tmpl';
+import { chatModalTemplate } from '../../templates/chatModal/chatModal.template';
+import { Message } from '../../../services/sockets/types';
 
 type ChatProps = Record<string, any>;
 type ChatListProps = {
@@ -22,22 +22,22 @@ type ChatListProps = {
         time: Date
         content: string
     }
-}
+};
 
 function parseTime(time?: Date) {
-    if (!time) return ''
+    if (!time) return '';
 
-    time = new Date(time)
-    return time.getHours() + ':' + time.getMinutes()
+    time = new Date(time);
+    return time.getHours() + ':' + time.getMinutes();
 }
 
 function getChatList(chatList: ChatListProps[], deleteChatStatus: boolean) {
-    const hostResources = 'https://ya-praktikum.tech/api/v2/resources'
+    const hostResources = 'https://ya-praktikum.tech/api/v2/resources';
     return chatList.map((chat) => {
         const userAvatarProps: UserAvatar = {
             size: 'l',
-            src: chat.avatar ? hostResources + chat.avatar : ''
-        }
+            src: chat.avatar ? hostResources + chat.avatar : '',
+        };
 
         const renderServiceSide = () => {
             if (deleteChatStatus) {
@@ -47,7 +47,7 @@ function getChatList(chatList: ChatListProps[], deleteChatStatus: boolean) {
                         data-chat-id="${chat.id}"
                         onClick="onDeleteChat"
                     />
-                `
+                `;
             } else if (chat.unread_count > 0 ) {
                 return (`
                     <div className="${styles['data__unread__messages__container']}">
@@ -55,11 +55,11 @@ function getChatList(chatList: ChatListProps[], deleteChatStatus: boolean) {
                           ${chat.unread_count}
                        </span>
                     </div>
-                `)
+                `);
             }
 
-            return ''
-        }
+            return '';
+        };
 
         return ( `
             <li
@@ -77,7 +77,7 @@ function getChatList(chatList: ChatListProps[], deleteChatStatus: boolean) {
                     ${renderServiceSide()}
                 </div>
             </li>
-        `)
+        `);
     });
 }
 
@@ -86,14 +86,14 @@ function renderMessages(messages: Message[] | Message, currentUserId: number) {
         return messages.map((message) => {
             return (`
                 <li
-                    className="${styles['messages__item']} ${currentUserId === message.user_id? styles['owner'] : styles['other']}"
+                    className="${styles['messages__item']} ${currentUserId === message.user_id ? styles['owner'] : styles['other']}"
                 >
                     <span>
                         ${message.content}
                     </span>
                 </li>
-            `)
-        })
+            `);
+        });
     }
 
     return (`
@@ -104,7 +104,7 @@ function renderMessages(messages: Message[] | Message, currentUserId: number) {
                 ${messages.content}
             </span>
         </li>
-   x `)
+   x `);
 }
 
 export function template(props?: ChatProps) {
@@ -116,7 +116,7 @@ export function template(props?: ChatProps) {
         deleteChatStatus,
         selectedChat,
         messages,
-        currentUserId
+        currentUserId,
     } = props ?? {};
     const addChatModalProps = {
         active: addChatModalActive as boolean,
@@ -125,8 +125,8 @@ export function template(props?: ChatProps) {
         buttonText: 'Создать',
         onClose: 'onAddChatModalClose',
         onButtonClick: 'onAddChat',
-        identifier: 'add_chat_modal'
-    }
+        identifier: 'add_chat_modal',
+    };
 
     const addUserToChatProps = {
         active: addUserToChatModal as boolean,
@@ -135,8 +135,8 @@ export function template(props?: ChatProps) {
         buttonText: 'Добавить',
         onClose: 'onAddUserModalClose',
         onButtonClick: 'onAddUserToChat',
-        identifier: 'add_user_modal'
-    }
+        identifier: 'add_user_modal',
+    };
 
     const deleteUserFromChat = {
         active: addUserToChatModal as boolean,
@@ -145,18 +145,18 @@ export function template(props?: ChatProps) {
         buttonText: 'Удалить',
         onClose: 'onDeleteUserModalClose',
         onButtonClick: 'onDeleteUserFromChat',
-        identifier: 'delete_user_modal'
-    }
+        identifier: 'delete_user_modal',
+    };
 
     const renderRightColumn = () => {
         if (selectedChat?.id === -1) {
             return (`
                 <div className="${styles['empty__chat']}">Выберите чат</div>>
-            `)
+            `);
         }
         return (`
                 <header className="${styles['window__header']}">
-                    ${userAvatar({size: 'l', src: selectedChat?.avatar ?? ''})}
+                    ${userAvatar({ size: 'l', src: selectedChat?.avatar ?? '' })}
                     <p className="${styles['chat__title']}">${selectedChat.title}</p>
                     <div className="${styles['chat__options__container']}" onClick="onChatOptionsClick">
                         <div 
@@ -199,8 +199,8 @@ export function template(props?: ChatProps) {
                         <span className="${styles['send__message__popup']} error-span" data-name="${'message'}" />
                     </div>
                 </footer>
-    `)
-    }
+    `);
+    };
 
     const pageTemplate = () => `
         <div className="${styles['chat__container']}">

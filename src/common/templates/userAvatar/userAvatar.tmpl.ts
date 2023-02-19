@@ -1,8 +1,8 @@
 import styles from './styles.module.css';
 
-export type UserAvatar = { size: 'l' | 'xl', onAvatarUpload?: string, src: string, isEditMode?: boolean }
+export type UserAvatar = { size: 'l' | 'xl', onAvatarUpload?: string, src: string, isEditMode?: boolean };
 
-export const template = ({size, onAvatarUpload, src, isEditMode}: UserAvatar) => {
+export const template = ({ size, onAvatarUpload, src, isEditMode }: UserAvatar) => {
     if (isEditMode) {
         return `
             <label>
@@ -13,7 +13,7 @@ export const template = ({size, onAvatarUpload, src, isEditMode}: UserAvatar) =>
                     <span className="${styles['user__avatar']} ${styles[size]}" src="${src}" />
                 `) }
             </label>
-        `
+        `;
     }
 
     return `

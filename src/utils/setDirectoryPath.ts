@@ -1,4 +1,4 @@
-import {Indexed, merge} from "./merge";
+import { Indexed, merge } from './merge';
 
 export function setDirectoryPath(object: Indexed | unknown, path: string, value: unknown): Indexed | unknown {
     if (typeof object !== 'object' || object === null) {

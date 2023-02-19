@@ -7,9 +7,9 @@ export type UpdateProfileRequest = {
     phone: string;
 };
 
-export type SearchUserRequest= {
+export type SearchUserRequest = {
     login: string;
-}
+};
 
 export type UserResponse = {
     id: number;

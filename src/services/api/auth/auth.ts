@@ -1,6 +1,6 @@
-import {api} from '../../../core/HTTP';
+import { api } from '../../../core/HTTP';
 
-import {UserResponse, UserIdResponse, SignInRequest, SingUpRequest} from './types';
+import { UserResponse, UserIdResponse, SignInRequest, SingUpRequest } from './types';
 
 const auth = {
     signin: (body: SignInRequest): Promise<string> => {
@@ -17,4 +17,4 @@ const auth = {
     },
 };
 
-export {auth};
+export { auth };

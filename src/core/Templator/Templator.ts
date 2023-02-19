@@ -5,10 +5,10 @@ type Events = Record<string, (event: Event) => void>;
 
 export class Templator {
     private readonly template: (state?: Record<string, any>) => string;
-    private state?: Record<string, any>
+    private state?: Record<string, any>;
     private regExp: RegExp;
     private context?: Context;
-    private events?: Events
+    private events?: Events;
     private parser: HTMLParser;
 
     constructor(template: (state?: Record<string, any>) => string, state?: Record<string, any>) {
@@ -16,7 +16,7 @@ export class Templator {
         this.context = null;
         this.regExp = /\{\{(.*?)\}\}/g;
         this.parser = new HTMLParser();
-        this.state = state
+        this.state = state;
     }
 
     private parseTemplate(match = this.regExp.exec(this.template(this.state))) {
@@ -62,12 +62,12 @@ export class Templator {
     }
 
     public updateTemplate(newState: Record<string, any>) {
-        this.state = newState
-        return this.compile(this.context, this.events)
+        this.state = newState;
+        return this.compile(this.context, this.events);
     }
 
     public compile(context?: Context, events?: Events) {
-        this.events = events
+        this.events = events;
 
         const HTML = this.parser.parseHTML(this.prepareToCompile(context), events);
         return HTML;

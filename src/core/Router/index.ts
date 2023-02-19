@@ -6,7 +6,7 @@ import { Error500Page } from '../../common/pages/500';
 import { Error404Page } from '../../common/pages/404';
 import { ProfilePage } from '../../common/pages/profilePage';
 
-const router = new Router('.app')
+const router = new Router('.app');
 
 router
     .use('/', new SignInPage())
@@ -15,6 +15,6 @@ router
     .use('/messenger', new ChatPage())
     .use('/profile', new ProfilePage())
     .use('/500', new Error500Page())
-    .use('/404', new Error404Page())
+    .use('/404', new Error404Page());
 
-export {router}
+export { router };
