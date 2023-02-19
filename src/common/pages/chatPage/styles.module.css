@@ -182,7 +182,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    width:25px;
+    width: 25px;
     padding: 5px 0;
     height: 25px;
 }
@@ -193,7 +193,6 @@
     align-items: center;
     margin-bottom: 23px;
 }
-
 
 .chat__options__container {
     padding: 10px;
@@ -216,7 +215,7 @@
     border-radius: 50%;
     background: var(--dark-blue);
     left: 0;
-    top: -8px
+    top: -8px;
 }
 
 .chat__options::after {
@@ -404,8 +403,6 @@
     margin-left: auto;
 }
 
-.data__time {}
-
 .data__unread__messages__container {
     display: flex;
     border-radius: 50%;
@@ -437,7 +434,7 @@
 
 .data__unread__messages {
     margin: auto;
-    color: var(--white)
+    color: var(--white);
 }
 
 .messages__list {

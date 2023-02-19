@@ -26,7 +26,7 @@
 }
 
 .user__avatar-edit + .user__avatar::after {
-    content: "Загрузить авотар";
+    content: 'Загрузить авотар';
     width: fit-content;
     position: absolute;
     white-space: nowrap;

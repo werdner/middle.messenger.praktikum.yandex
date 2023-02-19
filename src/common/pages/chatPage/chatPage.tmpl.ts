@@ -73,7 +73,7 @@ function getChatList(chatList: ChatListProps[], deleteChatStatus: boolean) {
                     <p className="${styles['data__message']}">${chat.last_message?.content ?? 'Пустой чат'}</p>
                 </div>
                 <div className="${styles['data__container']}">
-                    <span className="${styles['data__time']}">${parseTime(chat.last_message?.time)}</span>
+                    <span>${parseTime(chat.last_message?.time)}</span>
                     ${renderServiceSide()}
                 </div>
             </li>
