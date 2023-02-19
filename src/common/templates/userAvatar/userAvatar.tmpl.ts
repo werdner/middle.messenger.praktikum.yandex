@@ -1,9 +1,26 @@
 import styles from './styles.module.css';
 
-type UserAvatar = (size: 'l' | 'xl') => string;
+export type UserAvatar = { size: 'l' | 'xl', onAvatarUpload?: string, src: string, isEditMode?: boolean }
 
-export const template: UserAvatar = (size = 'l') => {
+export const template = ({size, onAvatarUpload, src, isEditMode}: UserAvatar) => {
+    if (isEditMode) {
+        return `
+            <label>
+                <input className="${styles['user__avatar-edit']} ${styles[size]}" onInput="${onAvatarUpload}" type="file" />
+                ${src ? (`
+                    <img className="${styles['user__avatar']} ${styles[size]}" src="${src}" />
+                `) : (`
+                    <span className="${styles['user__avatar']} ${styles[size]}" src="${src}" />
+                `) }
+            </label>
+        `
+    }
+
     return `
-        <span className="${styles['user__avatar']} ${styles[size]}" />
+        ${src ? (`
+            <img className="${styles['user__avatar']} ${styles[size]}" src="${src}" />
+        `) : (`
+            <span className="${styles['user__avatar']} ${styles[size]}" src="${src}" />
+        `) }
     `;
 };

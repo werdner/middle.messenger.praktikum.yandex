@@ -1,38 +1,20 @@
 import { Router } from './Router';
-import { SignInPage } from '../../common/pages/signInPage/index';
-import { SignUpPage } from '../../common/pages/signUpPage/index';
-import { ChatPage } from '../../common/pages/chatPage/index';
-import { Error500Page } from '../../common/pages/500/index';
-import { Error404Page } from '../../common/pages/404/index';
-import { ProfilePage } from '../../common/pages/profilePage/index';
+import { SignInPage } from '../../common/pages/signInPage';
+import { SignUpPage } from '../../common/pages/signUpPage';
+import { ChatPage } from '../../common/pages/chatPage';
+import { Error500Page } from '../../common/pages/500';
+import { Error404Page } from '../../common/pages/404';
+import { ProfilePage } from '../../common/pages/profilePage';
 
-export const router = new Router('app', [
-    {
-        page: new SignInPage(),
-        path: '/',
-    },
-    {
-        page: new SignInPage(),
-        path: '/sign-in',
-    },
-    {
-        page: new SignUpPage(),
-        path: '/sign-up',
-    },
-    {
-        page: new ChatPage(),
-        path: '/chats',
-    },
-    {
-        page: new ProfilePage(),
-        path: '/profile',
-    },
-    {
-        page: new Error500Page(),
-        path: '/500',
-    },
-    {
-        page: new Error404Page(),
-        path: '/404',
-    },
-]);
+const router = new Router('.app')
+
+router
+    .use('/', new SignInPage())
+    .use('/sign-in', new SignInPage())
+    .use('/sign-up', new SignUpPage())
+    .use('/messenger', new ChatPage())
+    .use('/profile', new ProfilePage())
+    .use('/500', new Error500Page())
+    .use('/404', new Error404Page())
+
+export {router}

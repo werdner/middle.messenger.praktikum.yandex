@@ -5,9 +5,9 @@ import './index.css';
 
 const body = document.querySelector('body');
 const main = document.querySelector('main')
-const nav = render(new NavBar().getContent())
+// const nav = render(new NavBar().getContent())
 
-main.prepend(nav)
+// main.prepend(nav)
 body.append(main)
 
-router.start('/sign-in');
+router.start();

@@ -8,26 +8,26 @@ export class NavBar extends Block {
     constructor(context?: object) {
         const events = {
             open500ErrorPage() {
-                router.start('/500');
+                router.go('/500');
             },
             open404ErrorPage() {
-                router.start('/404');
+                router.go('/404');
             },
             openProfilePage() {
-                router.start('/profile');
+                router.go('/profile');
             },
             openChatsPage() {
-                router.start('/chats');
+                router.go('/messenger');
             },
             openSignUpPage() {
-                router.start('/sign-up');
+                router.go('/sign-up');
             },
             openSignInPage() {
-                router.start('/sign-in');
+                router.go('/sign-in');
             },
         }
 
-        const vApp = new Templator(template()).compile(context, events);
+        const vApp = new Templator(template).compile(context, events);
 
         super(vApp);
     }

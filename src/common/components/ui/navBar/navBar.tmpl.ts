@@ -29,7 +29,7 @@ export function template() {
         },
     ];
 
-    const navBartTemplate =  new Templator(`
+    const navBartTemplate =  new Templator(() => `
         <nav className="${styles['navbar__container']}">
             <h1 className="${styles['navbar__title']}">NavBar</h1>
             <hr />

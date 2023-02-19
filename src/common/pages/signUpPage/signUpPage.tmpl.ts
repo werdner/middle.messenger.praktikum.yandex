@@ -4,8 +4,8 @@ import styles from './styles.module.css';
 
 type SignUpPageProps = Record<string, any>;
 
-export function template(store: SignUpPageProps): string {
-    const signInTemplate = new Templator(authTemplate());
+export function template(state?: SignUpPageProps): string {
+    const signInTemplate = new Templator(authTemplate);
 
     const fieldsInfo = [
         {
@@ -34,14 +34,14 @@ export function template(store: SignUpPageProps): string {
             name: 'phone',
         },
         {
-            type: 'text',
+            type: 'password',
             placeholder: 'Пароль',
             name: 'password',
         },
         {
-            type: 'text',
+            type: 'password',
             placeholder: 'Пароль (еще раз)',
-            name: 'password',
+            name: 'password_repeat',
         },
     ];
 
@@ -54,7 +54,7 @@ export function template(store: SignUpPageProps): string {
                     onInput="onInputChange"
                     onBlur="onInputBlur"
                     name="${field.name}"
-                    value="${store[field.name]}"
+                    value="${state ? state[field.name] : ''}"
                 />
                 <span className="${styles['input-error']} error-span" data-name="${field.name}" />
             `

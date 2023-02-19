@@ -17,6 +17,10 @@ export class InputValidator {
     public onSubmitForm(event: Event) {
         event.preventDefault();
 
+        if ('password_repeat' in this.validatorConfig) {
+            this.validatorConfig.password_repeat.isMatch.password = this.store.state.password
+        }
+
         const popup = document.querySelectorAll('.error-span');
         const { errors, hasErrors } = this.validator.validate(this.validatorConfig, this.store.state);
 
@@ -43,12 +47,18 @@ export class InputValidator {
                 element.style.display = 'none';
             }
         });
+
+        return hasErrors
     }
 
     onInputBlur(event: Event) {
         const { target } = event;
 
         if (target instanceof HTMLInputElement) {
+            if ('password_repeat' in this.validatorConfig) {
+                this.validatorConfig.password_repeat.isMatch.password = this.store.state.password
+            }
+
             const popup = document.querySelector(`[data-name=${target.name}]`);
             const isHTMLElement = popup && popup instanceof HTMLElement;
             const { errors, hasErrors } = this.validator.validate(this.validatorConfig, this.store.state, target.name);

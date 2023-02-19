@@ -1,5 +1,5 @@
 import { EventBus } from './EventBus';
-import { VDom, VTree } from './vdom/index';
+import { VDom, VTree } from './vdom';
 import { mount } from './vdom/mount';
 import { render } from './vdom/render';
 

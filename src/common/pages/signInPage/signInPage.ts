@@ -3,12 +3,14 @@ import { template } from './index';
 import { router } from '../../../core/Router';
 import { Block } from '../../../core/Block';
 import {InputValidator} from "../../../utils/inputValidator";
+import {SignInRequest} from "../../../services/api/auth/types";
+import {auth} from "../../../services/api/auth/auth";
 
 type ValidationConfig = Record<string, Record<string, Record<string, string | number>>>;
 
 export class SignInPage extends Block {
-    private readonly validatorConfig: ValidationConfig;
-    private inputValidator: InputValidator
+    private readonly validatorConfig?: ValidationConfig;
+    private inputValidator?: InputValidator
 
     constructor(context?: object) {
         const state = {
@@ -18,8 +20,8 @@ export class SignInPage extends Block {
         };
 
         const events = {
-            openSignUpPage: () => router.start('/sign-up'),
-            onInputBlur: (event: Event) => this.inputValidator.onInputBlur(event),
+            openSignUpPage: () => router.go('/sign-up'),
+            onInputBlur: (event: Event) => this.inputValidator?.onInputBlur(event),
             onInputChange: (event: Event) => {
                 const { target } = event;
                 if (target instanceof HTMLInputElement) {
@@ -28,18 +30,21 @@ export class SignInPage extends Block {
                     this.store.setState(state);
                 }
             },
-            onSubmitForm: (event: Event) => {
-                this.inputValidator.onSubmitForm(event)
-
-                console.log({
+            onSubmitForm: async (event: Event) => {
+                const hasErrors = this.inputValidator?.onSubmitForm(event)
+                const userData = {
                     login: this.store.state.login,
                     password: this.store.state.password,
-                });
+                }
+
+                if (hasErrors) return
+
+                await this.signIn(userData)
             },
         };
 
 
-        const vApp = new Templator(template(state)).compile(context, events);
+        const vApp = new Templator(template, state).compile(context, events);
 
         super(vApp, state);
 
@@ -82,5 +87,21 @@ export class SignInPage extends Block {
         };
 
         this.inputValidator = new InputValidator(this.store, this.validatorConfig)
+    }
+
+    async signIn(userData: SignInRequest) {
+        try {
+            this.store.state.loading = true
+
+            await auth.signin(userData);
+            const user = await auth.user();
+            localStorage.setItem('user', JSON.stringify(user));
+
+            router.go('/messenger');
+        } catch (error) {
+            alert(error)
+        } finally {
+            this.store.state.loading = false
+        }
     }
 }

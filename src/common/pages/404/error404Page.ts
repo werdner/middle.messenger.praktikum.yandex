@@ -5,8 +5,8 @@ import { Block } from '../../../core/Block';
 
 export class Error404Page extends Block {
     constructor(context?: object) {
-        const vApp = new Templator(template()).compile(context, {
-            openChatsPage: () => router.start('/chats'),
+        const vApp = new Templator(template).compile(context, {
+            openChatsPage: () => router.go('/messenger'),
         });
 
         super(vApp);
