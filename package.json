@@ -7,7 +7,7 @@
     "npm": "8.5.4"
   },
   "scripts": {
-    "dev": "node server.js",
+    "dev": "npm run build && npx parcel static/index/index.html",
     "start": "npm run build --no-cache && node ./server.js",
     "build": "npx parcel build static/index/index.html --no-cache",
     "lint": "eslint . --fix",

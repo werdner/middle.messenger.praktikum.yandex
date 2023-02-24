@@ -55,6 +55,19 @@ export class SignInPage extends Block {
         this.inputValidator = new InputValidator(this.store, this.validatorConfig);
     }
 
+    async componentWillMount() {
+        try {
+            await auth.user();
+            router.go('/messenger');
+        } catch (error) {
+            if (error && typeof error === 'object' && 'reason' in error) {
+                console.warn(error.reason)
+            }
+
+            router.go('/sign-in');
+        }
+    }
+
     async signIn(userData: SignInRequest) {
         try {
             this.store.state.loading = true;

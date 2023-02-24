@@ -137,12 +137,20 @@ export class ProfilePage extends Block {
 
     async componentWillMount() {
         const state = this.store.state;
-        const user = await auth.user();
-        localStorage.setItem('user', JSON.stringify(user));
+        try {
+            const user = await auth.user();
+            localStorage.setItem('user', JSON.stringify(user));
 
-        Object.assign(state, replaceNullToString(user));
+            Object.assign(state, replaceNullToString(user));
+        } catch (error) {
+            if (error && typeof error === 'object' && 'reason' in error) {
+                console.warn(error.reason)
+            }
+            router.go('/')
+        }
+
         this.store.setState(state);
-        this.setMeta(this.pageTemplator?.updateTemplate(this.store.state), false);
+        this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
     }
 
     async logout() {

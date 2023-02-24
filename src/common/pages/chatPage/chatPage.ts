@@ -8,6 +8,7 @@ import { GetChatsResponse } from '../../../services/api/chat/types';
 import { WebSocketChat } from '../../../services/sockets/chat';
 import { Message } from '../../../services/sockets/types';
 import { validatorConfig } from '../../config/validatorConfig';
+import {auth} from "../../../services/api/auth/auth"
 
 export class ChatPage extends Block {
     private readonly validatorConfig;
@@ -24,16 +25,6 @@ export class ChatPage extends Block {
             deleteChatStatus: false,
             errors: {},
         };
-
-
-        const getCurrentUserId = () => {
-            const userData = localStorage.getItem('user');
-            const data = userData ? JSON.parse(userData) : {};
-
-            return data?.id ?? -1;
-        };
-
-        state.currentUserId = getCurrentUserId();
 
         const events = {
             openProfilePage: () => router.go('/settings'),
@@ -103,13 +94,14 @@ export class ChatPage extends Block {
                             socket.getMessages();
                         },
                         messages: (msg: Message[] | Message) => {
+                            console.log('MESSAGES')
                             state.messages = (Array.isArray(msg) ? msg : [...state.messages, msg]) as Message[];
-                            this.store.state.messages = state.messages;
+                            this.store.setState(state)
+                            this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
                         },
                     });
 
-                    state.selectedChat ? state.selectedChat.id = chatId : delete state.selectedChat;
-
+                    console.log(Object.assign({}, this.store.state))
                     const currentChat = this.store.state.chatList.find((chat: GetChatsResponse) => chat.id === Number(chatId));
                     state.selectedChat = currentChat;
 
@@ -133,11 +125,30 @@ export class ChatPage extends Block {
     }
 
     async componentWillMount() {
+        const getCurrentUserId = () => {
+            const userData = localStorage.getItem('user');
+            const data = userData ? JSON.parse(userData) : {};
+
+            return data?.id ?? -1;
+        };
+
+        try {
+            await auth.user();
+        } catch (error) {
+            if (error && typeof error === 'object' && 'reason' in error) {
+                console.warn(error.reason)
+            }
+            router.go('/')
+        }
+
         await this.getChats();
         const state = this.store.state;
+        state.currentUserId = getCurrentUserId();
         delete state.selectedChat;
+        state.messages = []
 
         this.store.setState(state);
+        this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
     }
 
 
