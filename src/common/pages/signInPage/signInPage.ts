@@ -64,7 +64,7 @@ export class SignInPage extends Block {
                 console.warn(error.reason)
             }
 
-            router.go('/sign-in');
+            router.go('/');
         }
     }
 
