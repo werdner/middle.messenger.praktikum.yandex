@@ -5,6 +5,7 @@ import { Block } from '../../../core/Block';
 import { InputValidator } from '../../../utils/inputValidator';
 import { SignInRequest } from '../../../services/api/auth/types';
 import { auth } from '../../../services/api/auth/auth';
+import { validatorConfig } from '../../config/validatorConfig';
 
 type ValidationConfig = Record<string, Record<string, Record<string, string | number>>>;
 
@@ -46,46 +47,11 @@ export class SignInPage extends Block {
 
         const vApp = new Templator(template, state).compile(context, events);
 
-        super(vApp, state);
+        super('signIn', vApp, state);
 
-        this.validatorConfig = {
-            login: {
-                isRequired: {
-                    message: 'Поле логина не должно быть пустым',
-                },
-                isNumberAndLetter: {
-                    message: 'Поле логина должно содержать как минимум одно число и одну букву',
-                },
-                min: {
-                    message: 'Поле логина должно содержать как минимум 3 символа',
-                    value: 3,
-                },
-                max: {
-                    message: 'Поле логина не должно превышать 20 символов',
-                    value: 20,
-                },
-            },
-            password: {
-                isRequired: {
-                    message: 'Поле пароля не должно быть пукстым',
-                },
-                isCapitalSymbol: {
-                    message: 'Поле пароля должно содержать одну заглавную букву',
-                },
-                isContainDigit: {
-                    message: 'Поле пароля должно содержать одну цифру',
-                },
-                min: {
-                    message: 'Поле пароля должно содержать минимум 8 символов',
-                    value: 8,
-                },
-                max: {
-                    message: 'Поле пароля не должно превышать 40 символлов',
-                    value: 40,
-                },
-            },
-        };
+        const { password, login } = validatorConfig;
 
+        this.validatorConfig = { password, login };
         this.inputValidator = new InputValidator(this.store, this.validatorConfig);
     }
 
@@ -99,7 +65,11 @@ export class SignInPage extends Block {
 
             router.go('/messenger');
         } catch (error) {
-            alert(error);
+            if (error && typeof error === 'object' && 'reason' in error) {
+                alert(error?.reason)
+            } else {
+                alert(error)
+            }
         } finally {
             this.store.state.loading = false;
         }

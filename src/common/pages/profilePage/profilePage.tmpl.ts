@@ -3,6 +3,7 @@ import { Templator } from '../../../core/Templator/Templator';
 import { template as userAvatar, UserAvatar } from '../../templates/userAvatar/userAvatar.tmpl';
 import { InputProps, inputTemplate } from './index';
 import { button, ButtonProps } from '../../templates/button/button.tmpl';
+import { modalTemplate } from '../../templates/modal/modal.template';
 
 type Store = {
     fieldsInfo: InputProps[]
@@ -79,6 +80,7 @@ function getInfoList(profilePageProps?: Props) {
             },
             {
                 value: 'Изменить пароль',
+                onClick: 'onChangePassword',
                 variant: 'ghost',
             },
             {
@@ -122,6 +124,21 @@ export function template(profilePageProps?: Props) {
         isEditMode: profilePageProps?.isEditMode as boolean,
     };
 
+    const changePasswordProps = {
+        title: 'Сменить пароль',
+        inputTitle: 'Новый пароль',
+        inputName: 'password',
+        buttonText: 'Сменить пароль',
+        onClose: 'onChangePasswordModalClose',
+        onButtonClick: 'onChangePasswordClick',
+        identifier: 'change_password_modal',
+    };
+
+    const additionalParamsForChangeModal = {
+        inputTitle: 'Старый пароль',
+        inputName: 'password',
+    };
+
     const pageTemplate = () => `
         <div className="${styles['profile__container']}">
             <div className="${styles['profile__column-left']}">
@@ -141,6 +158,7 @@ export function template(profilePageProps?: Props) {
                     </div>
                 </div>
             </article>
+            ${modalTemplate(changePasswordProps, additionalParamsForChangeModal)}
         </div>
     `;
 

@@ -1,4 +1,4 @@
-.chat__modal__container {
+.modal__container {
     position: relative;
     left: 50%;
     top: 50%;
@@ -13,7 +13,7 @@
     box-shadow: 0 0 6px rgb(0 0 0 / 14%);
 }
 
-.chat__modal__close {
+.modal__close {
     position: absolute;
     width: 20px;
     height: 20px;
@@ -22,7 +22,7 @@
     cursor: pointer;
 }
 
-.chat__modal__close::before {
+.modal__close::before {
     content: '';
     position: absolute;
     width: 100%;
@@ -32,7 +32,7 @@
     transform: rotate(45deg);
 }
 
-.chat__modal__close::after {
+.modal__close::after {
     content: '';
     position: absolute;
     width: 100%;
@@ -42,14 +42,14 @@
     transform: rotate(-45deg);
 }
 
-.chat__modal__header {
+.modal__header {
     font-size: var(--body-title);
     color: var(--black);
     font-weight: normal;
     margin-bottom: 50px;
 }
 
-.chat__modal__input__container {
+.modal__input__container {
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -72,7 +72,7 @@
     outline: none;
 }
 
-.chat__modal__button {
+.modal__button {
     color: var(--white);
     border: none;
     padding: 12px;
@@ -88,4 +88,11 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5%);
+}
+
+.input-error {
+    display: none;
+    color: var(--red);
+    max-width: 400px;
+    text-align: end;
 }

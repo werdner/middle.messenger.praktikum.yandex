@@ -27,6 +27,7 @@
     color: var(--gray);
     border: none;
     background: none;
+    cursor: pointer;
 }
 
 .header__profile__search {
@@ -103,8 +104,8 @@
 
 .window__main {
     flex-grow: 1;
-    padding: 48px 30px 20px;
-    overflow-y: scroll;
+    padding: 20px 30px;
+    overflow-y: hidden;
 }
 
 .window__footer {
@@ -194,9 +195,18 @@
     margin-bottom: 23px;
 }
 
-.chat__options__container {
+.chat__options__click-handler {
     padding: 10px;
+}
+
+.chat__options__container {
     margin-left: auto;
+    cursor: pointer;
+    position: relative;
+}
+
+.chat__options__click-handler {
+    padding: 10px;
 }
 
 .chat__options {
@@ -229,16 +239,21 @@
     bottom: -8px;
 }
 
-.chat__options__list {
+.chat__options__list__container {
     display: none;
     position: absolute;
     top: 30px;
-    right: 0;
+    right: 10px;
     padding: 19px 15px;
     margin: 0;
     background: var(--white);
     box-shadow: 0 0 6px rgb(0 0 0 / 14%);
     border-radius: 12px;
+}
+
+.chat__options__list {
+    padding: 0;
+    margin: 0;
 }
 
 .chat__options__item {
@@ -440,6 +455,7 @@
 .messages__list {
     display: flex;
     height: 100%;
+    overflow: scroll;
     flex-direction: column-reverse;
 }
 
@@ -459,4 +475,33 @@
 
 .other {
     align-self: start;
+}
+
+.close__options__list {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    right: 5px;
+    top: 5px;
+    cursor: pointer;
+}
+
+.close__options__list::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    top: 50%;
+    background: var(--black);
+    transform: rotate(45deg);
+}
+
+.close__options__list::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    top: 50%;
+    background: var(--black);
+    transform: rotate(-45deg);
 }

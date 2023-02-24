@@ -14,7 +14,7 @@ export function template(store?: SignInPageProps) {
             name: 'login',
         },
         {
-            type: 'text',
+            type: 'password',
             placeholder: 'Пароль',
             name: 'password',
         },

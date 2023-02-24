@@ -9,6 +9,6 @@ export class Error500Page extends Block {
             openChatsPage: () => router.go('/messenger'),
         });
 
-        super(vApp);
+        super('error500', vApp);
     }
 }

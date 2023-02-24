@@ -9,6 +9,6 @@ export class Error404Page extends Block {
             openChatsPage: () => router.go('/messenger'),
         });
 
-        super(vApp);
+        super('error404', vApp);
     }
 }

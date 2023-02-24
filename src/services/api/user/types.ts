@@ -25,3 +25,8 @@ export type UserResponse = {
 export type UserIdResponse = {
     id: string;
 };
+
+export type UpdatePasswordRequest = {
+    oldPassword: string;
+    newPassword: string;
+};

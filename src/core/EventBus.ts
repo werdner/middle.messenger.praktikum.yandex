@@ -6,12 +6,7 @@ export class EventBus {
 
 
     constructor() {
-        if (EventBus._instance) {
-            return EventBus._instance;
-        }
         this.listeners = {};
-
-        EventBus._instance = this;
     }
 
     on(event: string, callback: Handler) {

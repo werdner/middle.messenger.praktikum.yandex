@@ -37,7 +37,7 @@ export class Router {
     }
 
     _onRoute(pathname: string) {
-        const protectedPaths = ['/messenger', '/profile'];
+        const protectedPaths = ['/messenger', '/settings'];
         let route = this.getRoute(pathname) ?? this.getRoute('/404');
         if (!route) {
             return;

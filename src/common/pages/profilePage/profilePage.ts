@@ -7,6 +7,7 @@ import { auth } from '../../../services/api/auth/auth';
 import { user } from '../../../services/api/user/user';
 import { replaceNullToString } from '../../../utils/replaceNullToString';
 import { UpdateProfileRequest } from '../../../services/api/user/types';
+import { validatorConfig } from '../../config/validatorConfig';
 
 export class ProfilePage extends Block {
     private readonly validatorConfig;
@@ -16,6 +17,7 @@ export class ProfilePage extends Block {
     constructor(context?: object) {
         let state = {
             isEditMode: false,
+            password: '',
             errors: {},
         };
 
@@ -33,6 +35,8 @@ export class ProfilePage extends Block {
             onLogOut: async () => this.logout(),
             openChatsPage: () => router.go('/messenger'),
             onInputBlur: (event: Event) => this.inputValidator.onInputBlur(event),
+            onChangePassword: () => this.openModal('.change_password_modal'),
+            onChangePasswordModalClose: () => this.closeModal('.change_password_modal'),
             onAvatarUpload: async (event: Event) => {
                 const formData = new FormData();
                 const { target } = event;
@@ -81,83 +85,64 @@ export class ProfilePage extends Block {
                 await this.updateProfile(userData);
                 this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
             },
+            onChangePasswordClick: async () => {
+                const inputs = document.querySelectorAll('.modal__input');
+                const oldPassword = inputs[0];
+                const newPassword = inputs[1];
+
+                if (oldPassword instanceof HTMLInputElement && newPassword instanceof HTMLInputElement) {
+                    const hasError = this.inputValidator.onInputBlur(newPassword);
+                    if (hasError) return;
+
+                    const data = {
+                        oldPassword: oldPassword.value,
+                        newPassword: newPassword.value,
+                    };
+
+                    try {
+                        await user.updatePassword(data);
+                    } catch (error) {
+                        if (error && typeof error === 'object' && 'reason' in error) {
+                            alert(error?.reason)
+                        } else {
+                            alert(error)
+                        }
+                    }
+
+                    this.closeModal('.change_password_modal');
+                }
+            },
         };
 
         const templator = new Templator(template, state);
         const vApp = templator.compile(context, events);
 
-        super(vApp, state);
+        super('profilePage', vApp, state);
 
         this.pageTemplator = templator;
 
+        const { first_name, second_name, display_name, phone, email, login, password } = validatorConfig;
         this.validatorConfig = {
-            display_name: {
-                isRequired: {
-                    message: 'Поле имени в чате не должно быть пустым',
-                },
-                isNumberAndLetter: {
-                    message: 'Поле имени в чате должно содержать как минимум одно число и одну букву',
-                },
-                min: {
-                    message: 'Поле имени в чате должно содержать как минимум 3 символа',
-                    value: 3,
-                },
-                max: {
-                    message: 'Поле имени в чате не должно превышать 20 символов',
-                    value: 20,
-                },
-            },
-            first_name: {
-                isRequired: {
-                    message: 'Поле имени не должно быть пустым',
-                },
-                isPersonName: {
-                    message: 'Поле имени должно начинаться с заглавной буквы и не должно содержать пробелов или чисел',
-                },
-            },
-            second_name: {
-                isRequired: {
-                    message: 'Поле фамилии не должно быть пустым',
-                },
-                isPersonName: {
-                    message: 'Поле имени должно начинаться с заглавной буквы и не должно содержать пробелов или чисел',
-                },
-            },
-            phone: {
-                isRequired: {
-                    message: 'Поле телефона не должно быть пустым',
-                },
-                isPhone: {
-                    message: 'Поле телефона не должно быть пустым должно содержать от 10 до 15 цифр',
-                },
-            },
-            email: {
-                isRequired: {
-                    message: 'Поле почты не дожно быть пустым',
-                },
-                isEmail: {
-                    message: 'Неверно название почты',
-                },
-            },
-            login: {
-                isRequired: {
-                    message: 'Поле логина не должно быть пустым',
-                },
-                isNumberAndLetter: {
-                    message: 'Поле логина должно содержать как минимум одно число и одну букву',
-                },
-                min: {
-                    message: 'Поле логина должно содержать как минимум 3 символа',
-                    value: 3,
-                },
-                max: {
-                    message: 'Поле логина не должно превышать 20 символов',
-                    value: 20,
-                },
-            },
+            display_name,
+            first_name,
+            second_name,
+            phone,
+            email,
+            login,
+            password,
         };
 
         this.inputValidator = new InputValidator(this.store, this.validatorConfig);
+    }
+
+    async componentWillMount() {
+        const state = this.store.state;
+        const user = await auth.user();
+        localStorage.setItem('user', JSON.stringify(user));
+
+        Object.assign(state, replaceNullToString(user));
+        this.store.setState(state);
+        this.setMeta(this.pageTemplator?.updateTemplate(this.store.state), false);
     }
 
     async logout() {
@@ -167,9 +152,12 @@ export class ProfilePage extends Block {
             await auth.logout();
             localStorage.removeItem('user');
             router.go('/');
-
         } catch (error) {
-            alert(error);
+            if (error && typeof error === 'object' && 'reason' in error) {
+                alert(error?.reason)
+            } else {
+                alert(error)
+            }
         } finally {
             this.store.state.loading = false;
         }
@@ -183,9 +171,29 @@ export class ProfilePage extends Block {
             data = await user.updateProfile(userData);
             localStorage.setItem('user', JSON.stringify(data));
         } catch (error) {
-            alert(error);
+            if (error && typeof error === 'object' && 'reason' in error) {
+                alert(error?.reason)
+            } else {
+                alert(error)
+            }
         } finally {
             this.store.state.loading = false;
+        }
+    }
+
+    openModal(identifier: string) {
+        const popup = document.querySelector(identifier);
+
+        if (popup && popup instanceof HTMLElement) {
+            popup.style.display = 'block';
+        }
+    }
+
+    closeModal(identifier: string) {
+        const popup = document.querySelector(identifier);
+
+        if (popup && popup instanceof HTMLElement) {
+            popup.style.display = 'none';
         }
     }
 }

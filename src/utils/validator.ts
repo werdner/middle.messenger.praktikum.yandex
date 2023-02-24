@@ -30,6 +30,11 @@ function getError(validateMethod: ValidateMethod, value: Value, config: Config) 
             statusValidate = !capitalRegExp.test(value);
             break;
         }
+        case 'isNumberOrLetter': {
+            const numberOrLetterRegExp = /^\w*(?=\w*[A-Za-z])\w*$/;
+            statusValidate = !numberOrLetterRegExp.test(value);
+            break;
+        }
         case 'isNumberAndLetter': {
             const numberAndLetterRegExp = /^\w*(?=\w*\d)(?=\w*[A-Za-z])\w*$/;
             statusValidate = !numberAndLetterRegExp.test(value);

@@ -7,6 +7,7 @@ import { chat } from '../../../services/api/chat/chat';
 import { GetChatsResponse } from '../../../services/api/chat/types';
 import { WebSocketChat } from '../../../services/sockets/chat';
 import { Message } from '../../../services/sockets/types';
+import { validatorConfig } from '../../config/validatorConfig';
 
 export class ChatPage extends Block {
     private readonly validatorConfig;
@@ -18,7 +19,7 @@ export class ChatPage extends Block {
             message: '',
             messages: [],
             currentUserId: -1,
-            selectedChat: { id: -1 },
+            selectedChat: null,
             chatList: [],
             deleteChatStatus: false,
             errors: {},
@@ -35,9 +36,9 @@ export class ChatPage extends Block {
         state.currentUserId = getCurrentUserId();
 
         const events = {
-            openProfilePage: () => router.go('/profile'),
+            openProfilePage: () => router.go('/settings'),
             onSendMessageBlur: (event: Event) => this.onSendMessageBlur(event),
-            onSendMessage: (event: Event) => this.sendMessage(event),
+            onSendMessage: () => this.sendMessage(),
             onAddNewChat: () => this.openModal('.add_chat_modal'),
             onAddUser: async () => this.openModal('.add_user_modal'),
             onDeleteUser: () => this.openModal('.delete_user_modal'),
@@ -47,6 +48,7 @@ export class ChatPage extends Block {
             onDeleteUserModalClose: () => this.closeModal('.delete_user_modal'),
             onAddUserToChat: () => this.makeActionWithUser('addUser'),
             onDeleteUserFromChat: () => this.makeActionWithUser('deleteUser'),
+            onCloseOptions: () => this.closeModal('.options__list'),
             onInputChange: (event: Event) => {
                 const { target } = event;
                 if (target instanceof HTMLInputElement) {
@@ -65,11 +67,7 @@ export class ChatPage extends Block {
                     const chats = await chat.getChats();
 
                     const state = this.store.state;
-                    const popup = document.querySelector('.add_chat__modal');
-
-                    if (popup && popup instanceof HTMLElement) {
-                        popup.style.display = 'none';
-                    }
+                    this.closeModal('.add_chat_modal');
                     state.chatList = chats;
                     this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
                 }
@@ -105,16 +103,16 @@ export class ChatPage extends Block {
                             socket.getMessages();
                         },
                         messages: (msg: Message[] | Message) => {
-                            state.messages = (Array.isArray(msg) ? msg : [...state.messages, msg]).reverse() as Message[];
-                            this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
-                            this.getChats();
+                            state.messages = (Array.isArray(msg) ? msg : [...state.messages, msg]) as Message[];
+                            this.store.state.messages = state.messages;
                         },
                     });
 
-                    state.selectedChat ? state.selectedChat.id = chatId : state.selectedChat = { id: -1 };
+                    state.selectedChat ? state.selectedChat.id = chatId : delete state.selectedChat;
 
                     const currentChat = this.store.state.chatList.find((chat: GetChatsResponse) => chat.id === Number(chatId));
                     state.selectedChat = currentChat;
+
 
                     this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
                 }
@@ -124,26 +122,31 @@ export class ChatPage extends Block {
         const tempaltor = new Templator(template, state);
         const vApp = tempaltor.compile(context, events);
 
-        super(vApp, state);
-
-        this.getChats();
+        super('chatPage', vApp, state);
 
         this.pageTemplator = tempaltor;
 
-        this.validatorConfig = {
-            message: {
-                isRequired: {
-                    message: 'Поле сообщения не должно быть пустым',
-                },
-            },
-        };
+        const { message } = validatorConfig;
+        this.validatorConfig = { message };
 
         this.inputValidator = new InputValidator(this.store, this.validatorConfig);
     }
 
-    sendMessage(event: Event) {
-        this.inputValidator.onInputBlur(event);
-        const target = document.querySelector('.message__input');
+    async componentWillMount() {
+        await this.getChats();
+        const state = this.store.state;
+        delete state.selectedChat;
+
+        this.store.setState(state);
+    }
+
+
+    sendMessage() {
+        const element = document.querySelector('.message__input');
+
+        if (!element) return;
+
+        const hasError = this.inputValidator.onInputBlur(element);
         const popup = document.querySelectorAll('.error-span');
 
         if (popup instanceof HTMLElement && this.store.state.errors.message) {
@@ -155,6 +158,8 @@ export class ChatPage extends Block {
             return;
         }
 
+        if (hasError) return;
+
         const socket = WebSocketChat.instance;
         socket.sendMessage(this.store.state.message);
 
@@ -162,8 +167,8 @@ export class ChatPage extends Block {
             message: this.store.state.message,
         });
 
-        if (target instanceof HTMLInputElement) {
-            target.value = '';
+        if (element instanceof HTMLInputElement) {
+            element.value = '';
         }
         this.store.state.message = '';
     }
@@ -197,10 +202,12 @@ export class ChatPage extends Block {
     }
 
     async getChats() {
-        const state = Object.assign({}, this.store.state);
+        const state = this.store.state;
+
         state.chatList = await chat.getChats();
+
         this.store.setState(state);
-        this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
+        this.setMeta(this.pageTemplator?.updateTemplate(this.store.state), false);
     }
 
     async deleteChat(chatId: number) {
@@ -208,9 +215,14 @@ export class ChatPage extends Block {
 
         try {
             await chat.deleteChat({ chatId });
+            delete this.store.state.selectedChat;
             await this.getChats();
         } catch (error) {
-            alert(error);
+            if (error && typeof error === 'object' && 'reason' in error) {
+                alert(error?.reason)
+            } else {
+                alert(error)
+            }
         } finally {
             this.store.state.loadDeleteChat = false;
         }

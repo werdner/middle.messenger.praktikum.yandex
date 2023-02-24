@@ -51,8 +51,9 @@ export class InputValidator {
         return hasErrors;
     }
 
-    onInputBlur(event: Event) {
-        const { target } = event;
+    onInputBlur(eventOrElement: Event | Element) {
+        const target = eventOrElement instanceof Element ? eventOrElement : eventOrElement.target;
+        let hasError = null;
 
         if (target instanceof HTMLInputElement) {
             if ('password_repeat' in this.validatorConfig) {
@@ -70,6 +71,7 @@ export class InputValidator {
             };
 
             if (hasErrors) {
+                hasError = hasErrors;
                 this.store.setState(newState);
             } else {
                 target.name ? this.store.state.errors[target.name] = '' : this.store.state.errors = {};
@@ -83,5 +85,7 @@ export class InputValidator {
                 popup.textContent = '';
             }
         }
+
+        return hasError;
     }
 }

@@ -1,4 +1,4 @@
-import { SearchUserRequest, UpdateProfileRequest, UserResponse } from './types';
+import { SearchUserRequest, UpdatePasswordRequest, UpdateProfileRequest, UserResponse } from './types';
 import { api } from '../../../core/HTTP';
 
 const user = {
@@ -10,6 +10,9 @@ const user = {
     },
     searchUser: (body: SearchUserRequest): Promise<UserResponse[]> => {
         return api.post('/user/search', body);
+    },
+    updatePassword: (body: UpdatePasswordRequest): Promise<string> => {
+        return api.put('/user/password', body);
     },
 };
 

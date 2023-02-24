@@ -10,10 +10,9 @@ const router = new Router('.app');
 
 router
     .use('/', new SignInPage())
-    .use('/sign-in', new SignInPage())
     .use('/sign-up', new SignUpPage())
     .use('/messenger', new ChatPage())
-    .use('/profile', new ProfilePage())
+    .use('/settings', new ProfilePage())
     .use('/500', new Error500Page())
     .use('/404', new Error404Page());
 

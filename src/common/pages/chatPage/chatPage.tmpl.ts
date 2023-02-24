@@ -1,11 +1,12 @@
 import styles from './styles.module.css';
 import { Templator } from '../../../core/Templator/Templator';
 import { template as userAvatar, UserAvatar } from '../../templates/userAvatar/userAvatar.tmpl';
-import { chatModalTemplate } from '../../templates/chatModal/chatModal.template';
+import { modalTemplate } from '../../templates/modal/modal.template';
 import { Message } from '../../../services/sockets/types';
+import { parseTime } from '../../../utils/parseTime';
 
 type ChatProps = Record<string, any>;
-type ChatListProps = {
+export type ChatListProps = {
     id: number
     title: string
     avatar: string
@@ -23,13 +24,6 @@ type ChatListProps = {
         content: string
     }
 };
-
-function parseTime(time?: Date) {
-    if (!time) return '';
-
-    time = new Date(time);
-    return time.getHours() + ':' + time.getMinutes();
-}
 
 function getChatList(chatList: ChatListProps[], deleteChatStatus: boolean) {
     const hostResources = 'https://ya-praktikum.tech/api/v2/resources';
@@ -83,13 +77,15 @@ function getChatList(chatList: ChatListProps[], deleteChatStatus: boolean) {
 
 function renderMessages(messages: Message[] | Message, currentUserId: number) {
     if (Array.isArray(messages)) {
-        return messages.map((message) => {
+        return messages.map((_message, index, array) => {
+            const oppositeIndex = (array.length - 1) - index;
+            const oppositeMessage = array[oppositeIndex];
             return (`
                 <li
-                    className="${styles['messages__item']} ${currentUserId === message.user_id ? styles['owner'] : styles['other']}"
+                    className="${styles['messages__item']} ${currentUserId === oppositeMessage.user_id ? styles['owner'] : styles['other']}"
                 >
                     <span>
-                        ${message.content}
+                        ${oppositeMessage.content}
                     </span>
                 </li>
             `);
@@ -107,11 +103,27 @@ function renderMessages(messages: Message[] | Message, currentUserId: number) {
    x `);
 }
 
+function renderSettingsChatModal() {
+    return (`
+           <div className="${styles['chat__options__list__container']} options__list">
+               <ul className="${styles['chat__options__list']}">
+                  <li className="${styles['chat__options__item']}" onClick="onAddUser">
+                    <span className="${styles['add__user__icon']}" />
+                    <span>Добавить пользователя</span>
+                  </li>
+                  <li className="${styles['chat__options__item']}" onClick="onDeleteUser">
+                     <span className="${styles['delete__user__icon']}" />
+                     <span>Удалить пользователя</span>
+                  </li>
+               </ul>
+                  <span className="${styles['close__options__list']}" onClick="onCloseOptions" />
+           </div>
+    `);
+}
+
 export function template(props?: ChatProps) {
     const {
         message,
-        addChatModalActive,
-        addUserToChatModal,
         chatList,
         deleteChatStatus,
         selectedChat,
@@ -119,9 +131,9 @@ export function template(props?: ChatProps) {
         currentUserId,
     } = props ?? {};
     const addChatModalProps = {
-        active: addChatModalActive as boolean,
         title: 'Создать новый чат',
         inputTitle: 'Название чата',
+        inputName: 'chat_name',
         buttonText: 'Создать',
         onClose: 'onAddChatModalClose',
         onButtonClick: 'onAddChat',
@@ -129,9 +141,9 @@ export function template(props?: ChatProps) {
     };
 
     const addUserToChatProps = {
-        active: addUserToChatModal as boolean,
         title: 'Добавить пользователя',
         inputTitle: 'ID пользователя',
+        inputName: 'user_id',
         buttonText: 'Добавить',
         onClose: 'onAddUserModalClose',
         onButtonClick: 'onAddUserToChat',
@@ -139,9 +151,9 @@ export function template(props?: ChatProps) {
     };
 
     const deleteUserFromChat = {
-        active: addUserToChatModal as boolean,
         title: 'Удалить пользователя из чата',
         inputTitle: 'ID пользователя',
+        inputName: 'user_id',
         buttonText: 'Удалить',
         onClose: 'onDeleteUserModalClose',
         onButtonClick: 'onDeleteUserFromChat',
@@ -149,30 +161,20 @@ export function template(props?: ChatProps) {
     };
 
     const renderRightColumn = () => {
-        if (selectedChat?.id === -1) {
+        if (selectedChat?.id === -1 || !selectedChat) {
             return (`
-                <div className="${styles['empty__chat']}">Выберите чат</div>>
+                <div className="${styles['empty__chat']}">Выберите чат</div>
             `);
         }
         return (`
                 <header className="${styles['window__header']}">
-                    ${userAvatar({ size: 'l', src: selectedChat?.avatar ?? '' })}
+                    ${userAvatar({ size: 'l', src: selectedChat.avatar ?? '' })}
                     <p className="${styles['chat__title']}">${selectedChat.title}</p>
-                    <div className="${styles['chat__options__container']}" onClick="onChatOptionsClick">
-                        <div 
-                            className="${styles['chat__options']}"
-                        >
-                            <ul className="${styles['chat__options__list']} options__list">
-                                <li className="${styles['chat__options__item']}" onClick="onAddUser">
-                                    <span className="${styles['add__user__icon']}" />
-                                    <span>Добавить пользователя</span>
-                                </li>
-                                <li className="${styles['chat__options__item']}" onClick="onDeleteUser">
-                                    <span className="${styles['delete__user__icon']}" />
-                                    <span>Удалить пользователя</span>
-                                </li>
-                            </ul>
+                    <div className="${styles['chat__options__container']}">
+                        <div className="${styles['chat__options__click-handler']}" onClick="onChatOptionsClick">
+                            <div className="${styles['chat__options']}" />      
                         </div>
+                        ${renderSettingsChatModal()}
                     </div>
                 </header>
                 <div className="${styles['window__main']}">
@@ -203,13 +205,13 @@ export function template(props?: ChatProps) {
     };
 
     const pageTemplate = () => `
-        <div className="${styles['chat__container']}">
+        <div className="${styles['chat__container']}" data-id="chat">
             <article className="${styles['chat__column-left']}">
                 <header className="${styles['column-left__header']} header">
                     <div className="${styles['header__container']}">
                         <button className="${styles['header__profile__burger']}">
                             <span className="${styles['burger__line']}" />
-                        </button>>
+                        </button>
                         <button className="${styles['header__profile__button']}" onClick="{{ OnClick }}">Профиль</button>
                     </div>
                     <input href="#" className="${styles['header__profile__search']}" type="text" placeholder="Поиск" />
@@ -225,9 +227,9 @@ export function template(props?: ChatProps) {
             <article className="${styles['chat__column-right']} window">
             ${renderRightColumn()}
             </article>
-            ${chatModalTemplate(addChatModalProps)}
-            ${chatModalTemplate(addUserToChatProps)}
-            ${chatModalTemplate(deleteUserFromChat)}
+            ${modalTemplate(addChatModalProps)}
+            ${modalTemplate(addUserToChatProps)}
+            ${modalTemplate(deleteUserFromChat)}
         </div>
     `;
 
