@@ -91,6 +91,9 @@ export class SignUpPage extends Block {
             router.go('/messenger');
         } catch (error) {
             if (error && typeof error === 'object' && 'reason' in error) {
+                if (error.reason === 'Cookie is not valid') {
+                    router.go('/')
+                }
                 alert(error?.reason)
             } else {
                 alert(error)

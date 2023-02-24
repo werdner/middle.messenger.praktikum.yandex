@@ -64,7 +64,7 @@ export class SignInPage extends Block {
                 console.warn(error.reason)
             }
 
-            router.go('/sign-in');
+            router.go('/');
         }
     }
 
@@ -79,6 +79,7 @@ export class SignInPage extends Block {
             router.go('/messenger');
         } catch (error) {
             if (error && typeof error === 'object' && 'reason' in error) {
+                if (error.reason === 'Cookie is not valid') return
                 alert(error?.reason)
             } else {
                 alert(error)
