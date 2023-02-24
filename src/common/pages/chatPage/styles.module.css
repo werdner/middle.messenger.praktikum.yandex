@@ -205,10 +205,6 @@
     position: relative;
 }
 
-.chat__options__click-handler {
-    padding: 10px;
-}
-
 .chat__options {
     position: relative;
     width: 4px;

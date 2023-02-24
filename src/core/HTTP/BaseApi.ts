@@ -1,11 +1,13 @@
 import { httpService, METHODS } from './index';
 
+type HTTPMethod = (url: string, data?: unknown) => Promise<any>
+
 type API = {
     headers: Record<string, string>;
-    get: (url: string, data?: unknown) => Promise<any>;
-    post: (url: string, data?: unknown) => Promise<any>;
-    put: (url: string, data?: unknown) => Promise<any>;
-    delete: (url: string, data?: unknown) => Promise<any>;
+    get: HTTPMethod;
+    post: HTTPMethod;
+    put: HTTPMethod;
+    delete: HTTPMethod;
 };
 
 const api: API = {
