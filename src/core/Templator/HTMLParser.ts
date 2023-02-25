@@ -19,7 +19,7 @@ export class HTMLParser {
     }
 
     private *baseParse(): Generator<RegExpExecArray, void> {
-        const HTML_ELEMENT: RegExp = /\s*<\/?(\b[a-z1-6]+)?\s*([^>]*)\/?>\s*(([-_а-яА-Я\w{}?,.@()+: ]*)\s*(?=<))?/g;
+        const HTML_ELEMENT: RegExp = /\s*<\/?(\b[a-z1-6]+)?\s*([^>]*)\/?>\s*(([-_а-яА-Я\w{}?,'*.@()+: ]*)\s*(?=<))?/g;
         let match = null;
 
         if (!this.string) return;
@@ -91,6 +91,7 @@ export class HTMLParser {
                         return parentChild;
                     }
                 } else {
+                    console.log(this.string, parentNode, this.stack);
                     throw new Error(`Wrong HTML: ${lastDOMElement.tagName} don't match ${nextPart[1]}`);
                 }
 

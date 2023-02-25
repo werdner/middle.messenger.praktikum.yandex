@@ -1,21 +1,25 @@
-import {Validator} from "./validator";
-import {Store} from "../core/Block";
+import { Validator } from './validator';
+import { Store } from '../core/Block';
 
 export class InputValidator {
-    private validator: Validator
-    private store: Record<string, any>
-    private state: Store['state']
-    private validatorConfig: Record<string, any>
+    private validator: Validator;
+    private store: Record<string, any>;
+    private state: Store['state'];
+    private validatorConfig: Record<string, any>;
 
     constructor(store: Store, validatorConfig: Record<string, any>) {
-        this.store = store
-        this.state = Object.assign({}, store.state)
-        this.validator = new Validator()
-        this.validatorConfig = validatorConfig
+        this.store = store;
+        this.state = Object.assign({}, store.state);
+        this.validator = new Validator();
+        this.validatorConfig = validatorConfig;
     }
 
     public onSubmitForm(event: Event) {
         event.preventDefault();
+
+        if ('password_repeat' in this.validatorConfig) {
+            this.validatorConfig.password_repeat.isMatch.password = this.store.state.password;
+        }
 
         const popup = document.querySelectorAll('.error-span');
         const { errors, hasErrors } = this.validator.validate(this.validatorConfig, this.store.state);
@@ -43,12 +47,19 @@ export class InputValidator {
                 element.style.display = 'none';
             }
         });
+
+        return hasErrors;
     }
 
-    onInputBlur(event: Event) {
-        const { target } = event;
+    onInputBlur(eventOrElement: Event | Element) {
+        const target = eventOrElement instanceof Element ? eventOrElement : eventOrElement.target;
+        let hasError = null;
 
         if (target instanceof HTMLInputElement) {
+            if ('password_repeat' in this.validatorConfig) {
+                this.validatorConfig.password_repeat.isMatch.password = this.store.state.password;
+            }
+
             const popup = document.querySelector(`[data-name=${target.name}]`);
             const isHTMLElement = popup && popup instanceof HTMLElement;
             const { errors, hasErrors } = this.validator.validate(this.validatorConfig, this.store.state, target.name);
@@ -60,6 +71,7 @@ export class InputValidator {
             };
 
             if (hasErrors) {
+                hasError = hasErrors;
                 this.store.setState(newState);
             } else {
                 target.name ? this.store.state.errors[target.name] = '' : this.store.state.errors = {};
@@ -73,5 +85,7 @@ export class InputValidator {
                 popup.textContent = '';
             }
         }
+
+        return hasError;
     }
 }

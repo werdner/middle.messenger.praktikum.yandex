@@ -5,10 +5,10 @@ import { Block } from '../../../core/Block';
 
 export class Error500Page extends Block {
     constructor(context?: object) {
-        const vApp = new Templator(template()).compile(context, {
-            openChatsPage: () => router.start('/chats'),
+        const vApp = new Templator(template).compile(context, {
+            openChatsPage: () => router.go('/messenger'),
         });
 
-        super(vApp);
+        super('error500', vApp);
     }
 }

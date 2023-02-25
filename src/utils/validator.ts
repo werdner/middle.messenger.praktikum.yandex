@@ -30,6 +30,11 @@ function getError(validateMethod: ValidateMethod, value: Value, config: Config) 
             statusValidate = !capitalRegExp.test(value);
             break;
         }
+        case 'isNumberOrLetter': {
+            const numberOrLetterRegExp = /^\w*(?=\w*[A-Za-z])\w*$/;
+            statusValidate = !numberOrLetterRegExp.test(value);
+            break;
+        }
         case 'isNumberAndLetter': {
             const numberAndLetterRegExp = /^\w*(?=\w*\d)(?=\w*[A-Za-z])\w*$/;
             statusValidate = !numberAndLetterRegExp.test(value);
@@ -45,6 +50,9 @@ function getError(validateMethod: ValidateMethod, value: Value, config: Config) 
             break;
         case 'max':
             statusValidate = value.length > config.value;
+            break;
+        case 'isMatch':
+            statusValidate = value !== config.password;
             break;
         default:
             break;

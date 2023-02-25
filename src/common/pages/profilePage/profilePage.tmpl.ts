@@ -1,8 +1,9 @@
 import styles from './styles.module.css';
 import { Templator } from '../../../core/Templator/Templator';
-import { template as userAvatar } from '../../templates/userAvatar/userAvatar.tmpl';
+import { template as userAvatar, UserAvatar } from '../../templates/userAvatar/userAvatar.tmpl';
 import { InputProps, inputTemplate } from './index';
 import { button, ButtonProps } from '../../templates/button/button.tmpl';
+import { modalTemplate } from '../../templates/modal/modal.template';
 
 type Store = {
     fieldsInfo: InputProps[]
@@ -12,8 +13,8 @@ type Store = {
 
 type Props = Record<string, any>;
 
-function getInfoList(profilePageProps: Props) {
-    const { isEditMode, email, login, first_name, second_name, display_name, phone } = profilePageProps;
+function getInfoList(profilePageProps?: Props) {
+    const { isEditMode, email, login, first_name, second_name, display_name, phone } = profilePageProps ?? {};
     const store: Store = {
         fieldsInfo: [
             {
@@ -79,10 +80,12 @@ function getInfoList(profilePageProps: Props) {
             },
             {
                 value: 'Изменить пароль',
+                onClick: 'onChangePassword',
                 variant: 'ghost',
             },
             {
                 value: 'Выйти',
+                onClick: 'onLogOut',
                 variant: 'red',
             },
         ],
@@ -109,11 +112,34 @@ function getInfoList(profilePageProps: Props) {
         };
 }
 
-export function template(profilePageProps: Props) {
+export function template(profilePageProps?: Props) {
     const formMeta = getInfoList(profilePageProps);
+    const hostResources = 'https://ya-praktikum.tech/api/v2/resources';
     const { InfoList, ProfileSettingButtons } = formMeta;
 
-    const pageTemplate =  `
+    const userAvatarProps: UserAvatar = {
+        size: 'xl',
+        onAvatarUpload: 'onAvatarUpload',
+        src: profilePageProps?.avatar ?  hostResources + profilePageProps?.avatar : '' as string,
+        isEditMode: profilePageProps?.isEditMode as boolean,
+    };
+
+    const changePasswordProps = {
+        title: 'Сменить пароль',
+        inputTitle: 'Новый пароль',
+        inputName: 'password',
+        buttonText: 'Сменить пароль',
+        onClose: 'onChangePasswordModalClose',
+        onButtonClick: 'onChangePasswordClick',
+        identifier: 'change_password_modal',
+    };
+
+    const additionalParamsForChangeModal = {
+        inputTitle: 'Старый пароль',
+        inputName: 'password',
+    };
+
+    const pageTemplate = () => `
         <div className="${styles['profile__container']}">
             <div className="${styles['profile__column-left']}">
                 <button className="${styles['profile__arrow-back']}" onClick="{{ onClick }}"/>
@@ -121,7 +147,7 @@ export function template(profilePageProps: Props) {
             <article className="${styles['profile__column-right']}">
                 <div className="${styles['profile__settings__container']} user">
                     <div className="${styles['user__info']}">
-                        ${userAvatar('xl')}
+                        ${userAvatar(userAvatarProps)}
                         <span className="${styles['user__name']}">{{ UserName }}</span>
                     </div>
                     <ul className="user__info__list">
@@ -132,11 +158,12 @@ export function template(profilePageProps: Props) {
                     </div>
                 </div>
             </article>
+            ${modalTemplate(changePasswordProps, additionalParamsForChangeModal)}
         </div>
     `;
 
     return new Templator(pageTemplate).prepareToCompile({
-        UserName: 'Иван',
+        UserName: profilePageProps?.first_name ?? '',
         onClick: 'openChatsPage',
         InfoList,
         ProfileSettingButtons,

@@ -2,7 +2,7 @@ import { Templator } from '../../../core/Templator/Templator';
 import { template as errorContainer } from '../../templates/errorContainer/errorContainer.tmpl';
 
 export function template() {
-    const errorContainerTemplate = new Templator(errorContainer());
+    const errorContainerTemplate = new Templator(errorContainer);
 
     return errorContainerTemplate.prepareToCompile({
         ErrorCode: '500',

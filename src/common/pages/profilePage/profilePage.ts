@@ -2,31 +2,59 @@ import { Templator } from '../../../core/Templator/index';
 import { template } from './index';
 import { router } from '../../../core/Router';
 import { Block } from '../../../core/Block';
-import {InputValidator} from "../../../utils/inputValidator";
+import { InputValidator } from '../../../utils/inputValidator';
+import { auth } from '../../../services/api/auth/auth';
+import { user } from '../../../services/api/user/user';
+import { replaceNullToString } from '../../../utils/replaceNullToString';
+import { UpdateProfileRequest } from '../../../services/api/user/types';
+import { validatorConfig } from '../../config/validatorConfig';
 
 export class ProfilePage extends Block {
     private readonly validatorConfig;
-    private inputValidator: InputValidator
+    private inputValidator: InputValidator;
+    private pageTemplator?: Templator;
 
     constructor(context?: object) {
-        const state = {
+        let state = {
             isEditMode: false,
-            email: '',
-            first_name: '',
-            second_name: '',
-            phone: '',
-            login: '',
-            display_name: '',
+            password: '',
             errors: {},
         };
 
+        const getUserData = () => {
+            const userData = localStorage.getItem('user');
+             const data = userData ? JSON.parse(userData) : {};
+
+            return replaceNullToString(data);
+        };
+
+
+        state = Object.assign(getUserData(), state);
+
         const events = {
-            openChatsPage: () => router.start('/chats'),
+            onLogOut: async () => this.logout(),
+            openChatsPage: () => router.go('/messenger'),
             onInputBlur: (event: Event) => this.inputValidator.onInputBlur(event),
+            onChangePassword: () => this.openModal('.change_password_modal'),
+            onChangePasswordModalClose: () => this.closeModal('.change_password_modal'),
+            onAvatarUpload: async (event: Event) => {
+                const formData = new FormData();
+                const { target } = event;
+
+                if (target instanceof HTMLInputElement) {
+                    const image = target.files?.item(0);
+                    if (!image) return;
+                    formData.append('avatar', image);
+
+                    const userData = await user.updateAvatar(formData);
+                    localStorage.setItem('user', JSON.stringify(userData));
+                    this.store.setState({ ...state, ...replaceNullToString(userData) });
+                    this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
+                }
+            },
             changeEditMode: () => {
                 this.store.setState({ ...this.store.state, isEditMode: !this.store.state.isEditMode });
-                const newVApp = new Templator(template(this.store.state)).compile(context, events);
-                this.setMeta(newVApp);
+                this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
             },
             onInputChange: (event: Event) => {
                 const { target } = event;
@@ -36,11 +64,13 @@ export class ProfilePage extends Block {
                     this.store.setState({ ...state });
                 }
             },
-            onSubmitForm: (event: Event) => {
-                this.inputValidator.onSubmitForm(event)
+            onSubmitForm: async (event: Event) => {
+                const hasErrors = this.inputValidator.onSubmitForm(event);
+
+                if (hasErrors) return;
 
                 const { email, first_name, second_name, phone, login, password, display_name } = this.store.state;
-                console.log({
+                const userData = {
                     email,
                     first_name,
                     second_name,
@@ -48,81 +78,130 @@ export class ProfilePage extends Block {
                     login,
                     password,
                     display_name,
-                });
+                };
+
+                this.store.setState({ ...this.store.state, isEditMode: !this.store.state.isEditMode });
+
+                await this.updateProfile(userData);
+                this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
+            },
+            onChangePasswordClick: async () => {
+                const inputs = document.querySelectorAll('.modal__input');
+                const oldPassword = inputs[0];
+                const newPassword = inputs[1];
+
+                if (oldPassword instanceof HTMLInputElement && newPassword instanceof HTMLInputElement) {
+                    const hasError = this.inputValidator.onInputBlur(newPassword);
+                    if (hasError) return;
+
+                    const data = {
+                        oldPassword: oldPassword.value,
+                        newPassword: newPassword.value,
+                    };
+
+                    try {
+                        await user.updatePassword(data);
+                    } catch (error) {
+                        if (error && typeof error === 'object' && 'reason' in error) {
+                            alert(error?.reason)
+                        } else {
+                            alert(error)
+                        }
+                    }
+
+                    this.closeModal('.change_password_modal');
+                }
             },
         };
 
-        const vApp = new Templator(template(state)).compile(context, events);
+        const templator = new Templator(template, state);
+        const vApp = templator.compile(context, events);
 
-        super(vApp, state);
+        super('profilePage', vApp, state);
 
+        this.pageTemplator = templator;
+
+        const { first_name, second_name, display_name, phone, email, login, password } = validatorConfig;
         this.validatorConfig = {
-            display_name: {
-                isRequired: {
-                    message: 'Поле имени в чате не должно быть пустым',
-                },
-                isNumberAndLetter: {
-                    message: 'Поле имени в чате должно содержать как минимум одно число и одну букву',
-                },
-                min: {
-                    message: 'Поле имени в чате должно содержать как минимум 3 символа',
-                    value: 3,
-                },
-                max: {
-                    message: 'Поле имени в чате не должно превышать 20 символов',
-                    value: 20,
-                },
-            },
-            first_name: {
-                isRequired: {
-                    message: 'Поле имени не должно быть пустым',
-                },
-                isPersonName: {
-                    message: 'Поле имени должно начинаться с заглавной буквы и не должно содержать пробелов или чисел',
-                },
-            },
-            second_name: {
-                isRequired: {
-                    message: 'Поле фамилии не должно быть пустым',
-                },
-                isPersonName: {
-                    message: 'Поле имени должно начинаться с заглавной буквы и не должно содержать пробелов или чисел',
-                },
-            },
-            phone: {
-                isRequired: {
-                    message: 'Поле телефона не должно быть пустым',
-                },
-                isPhone: {
-                    message: 'Поле телефона не должно быть пустым должно содержать от 10 до 15 цифр',
-                },
-            },
-            email: {
-                isRequired: {
-                    message: 'Поле почты не дожно быть пустым',
-                },
-                isEmail: {
-                    message: 'Неверно название почты',
-                },
-            },
-            login: {
-                isRequired: {
-                    message: 'Поле логина не должно быть пустым',
-                },
-                isNumberAndLetter: {
-                    message: 'Поле логина должно содержать как минимум одно число и одну букву',
-                },
-                min: {
-                    message: 'Поле логина должно содержать как минимум 3 символа',
-                    value: 3,
-                },
-                max: {
-                    message: 'Поле логина не должно превышать 20 символов',
-                    value: 20,
-                },
-            },
+            display_name,
+            first_name,
+            second_name,
+            phone,
+            email,
+            login,
+            password,
         };
 
-        this.inputValidator = new InputValidator(this.store, this.validatorConfig)
+        this.inputValidator = new InputValidator(this.store, this.validatorConfig);
+    }
+
+    async componentWillMount() {
+        const state = this.store.state;
+        try {
+            const user = await auth.user();
+            localStorage.setItem('user', JSON.stringify(user));
+
+            Object.assign(state, replaceNullToString(user));
+        } catch (error) {
+            if (error && typeof error === 'object' && 'reason' in error) {
+                console.warn(error.reason)
+            }
+            router.go('/')
+        }
+
+        this.store.setState(state);
+        this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
+    }
+
+    async logout() {
+        try {
+            this.store.state.loading = true;
+
+            await auth.logout();
+            localStorage.removeItem('user');
+            router.go('/');
+        } catch (error) {
+            if (error && typeof error === 'object' && 'reason' in error) {
+                alert(error?.reason)
+            } else {
+                alert(error)
+            }
+        } finally {
+            this.store.state.loading = false;
+        }
+    }
+
+    async updateProfile(userData: UpdateProfileRequest) {
+        let data;
+
+        try {
+            this.store.state.loading = true;
+            data = await user.updateProfile(userData);
+            localStorage.setItem('user', JSON.stringify(data));
+        } catch (error) {
+            if (error && typeof error === 'object' && 'reason' in error) {
+                alert(error?.reason)
+            } else {
+                alert(error)
+            }
+        } finally {
+            this.store.state.loading = false;
+        }
+    }
+
+    openModal(identifier: string) {
+        const popup = document.querySelector(identifier);
+
+        if (popup && popup instanceof HTMLElement) {
+            popup.style.display = 'block';
+        }
+    }
+
+    closeModal(identifier: string) {
+        const popup = document.querySelector(identifier);
+
+        if (popup && popup instanceof HTMLElement) {
+            popup.style.display = 'none';
+        }
     }
 }

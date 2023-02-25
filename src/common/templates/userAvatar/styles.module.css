@@ -1,6 +1,8 @@
 .user__avatar {
+    position: relative;
     display: inline-block;
     border-radius: 50%;
+    overflow: hidden;
     background: var(--dirty-white);
 }
 
@@ -12,4 +14,27 @@
 .l {
     width: 47px;
     height: 47px;
+}
+
+.user__avatar-edit {
+    position: relative;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.user__avatar-edit + .user__avatar::after {
+    content: 'Загрузить авотар';
+    width: fit-content;
+    position: absolute;
+    white-space: nowrap;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+}
+
+label > .user__avatar-edit {
+    opacity: 0.005;
 }
