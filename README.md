@@ -19,8 +19,8 @@
 * `npm run lint:style`
 
 ### Сборка и запуск Docker
-* `docker build -t messenger .`
-* `docker run -d -p 3000:3000 messenger`
+* `docker build -t app .`
+* `docker run -p 3000:3000 -d app`
 
 ## Текущий этап
 
