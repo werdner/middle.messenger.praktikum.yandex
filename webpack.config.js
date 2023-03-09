@@ -33,13 +33,6 @@ const config = {
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'static', 'index', 'index.html'),
-      filename: 'index.html',
-      minify: {
-        collapseWhitespace: true,
-        removeComments: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-      },
     }),
     new MiniCssExtractPlugin({
       filename: 'style-[hash].css',
