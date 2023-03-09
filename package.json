@@ -16,7 +16,8 @@
     "watch": "webpack --watch",
     "serve": "node ./server.js",
     "lint": "eslint . --fix",
-    "lint:style": "stylelint **/*.css --fix"
+    "lint:style": "stylelint **/*.css --fix",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "Roman Titov <Werdners@yandex.ru>",
@@ -29,6 +30,7 @@
     "eslint-config-airbnb-typescript": "17.0.0",
     "eslint-plugin-import": "2.27.5",
     "express": "4.18.2",
+    "husky": "^8.0.3",
     "stylelint": "15.2.0",
     "stylelint-config-standard": "^30.0.1",
     "ts-jest": "^29.0.5",

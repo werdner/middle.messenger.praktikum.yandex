@@ -79,4 +79,5 @@ https://github.com/werdner/middle.messenger.praktikum.yandex/tree/sprint_2
 * Dockerfile для создания [docker](https://www.docker.com/) -контейнера с дистрибутивом и сервером на Express
 * Настроен pre commit ([husky](https://typicode.github.io/husky/#/))
 * Частично покрыто тестами ([jest](https://jestjs.io/))
+* Настроен pre commit ([husky](https://typicode.github.io/husky/#/))
 
