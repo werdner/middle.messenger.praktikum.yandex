@@ -1,3 +1,8 @@
-.parcel-cache
+**/*.config.js
+**/*.config.prod.js
 dist
+static
 node_modules
+server.js
+jest.config.ts
+coverage

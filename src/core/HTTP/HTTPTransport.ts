@@ -18,7 +18,7 @@ export type TRequestOptions = {
     withCredentials?: boolean
 };
 
-function queryStringify(data: Record<string, unknown>): string {
+export function queryStringify(data: Record<string, unknown>): string {
     let str = '?';
 
     const arr = Object.entries(data);
@@ -32,7 +32,7 @@ function queryStringify(data: Record<string, unknown>): string {
     return str;
 }
 
-function onload(xhr: XMLHttpRequest, resolve: (value: (XMLHttpRequest | PromiseLike<XMLHttpRequest>)) => void, reject: (value: unknown) => void) {
+export function onload(xhr: XMLHttpRequest, resolve: (value: (XMLHttpRequest | PromiseLike<XMLHttpRequest>)) => void, reject: (value: unknown) => void) {
     return function () {
         const startObject = xhr.responseText.trim().startsWith('{');
         const startArray = xhr.responseText.trim().startsWith('[');

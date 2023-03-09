@@ -66,8 +66,9 @@ export class ProfilePage extends Block {
             },
             onSubmitForm: async (event: Event) => {
                 const hasErrors = this.inputValidator.onSubmitForm(event);
+                const excludePasswordError = 'errors' in this.store.state && Object.keys(this.store.state.errors).length === 1;
 
-                if (hasErrors) return;
+                if (hasErrors && !excludePasswordError) return;
 
                 const { email, first_name, second_name, phone, login, password, display_name } = this.store.state;
                 const userData = {
@@ -103,9 +104,9 @@ export class ProfilePage extends Block {
                         await user.updatePassword(data);
                     } catch (error) {
                         if (error && typeof error === 'object' && 'reason' in error) {
-                            alert(error?.reason)
+                            alert(error?.reason);
                         } else {
-                            alert(error)
+                            alert(error);
                         }
                     }
 
@@ -144,9 +145,9 @@ export class ProfilePage extends Block {
             Object.assign(state, replaceNullToString(user));
         } catch (error) {
             if (error && typeof error === 'object' && 'reason' in error) {
-                console.warn(error.reason)
+                console.warn(error.reason);
             }
-            router.go('/')
+            router.go('/');
         }
 
         this.store.setState(state);
@@ -162,9 +163,9 @@ export class ProfilePage extends Block {
             router.go('/');
         } catch (error) {
             if (error && typeof error === 'object' && 'reason' in error) {
-                alert(error?.reason)
+                alert(error?.reason);
             } else {
-                alert(error)
+                alert(error);
             }
         } finally {
             this.store.state.loading = false;
@@ -180,9 +181,9 @@ export class ProfilePage extends Block {
             localStorage.setItem('user', JSON.stringify(data));
         } catch (error) {
             if (error && typeof error === 'object' && 'reason' in error) {
-                alert(error?.reason)
+                alert(error?.reason);
             } else {
-                alert(error)
+                alert(error);
             }
         } finally {
             this.store.state.loading = false;

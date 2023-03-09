@@ -20,9 +20,9 @@ export class Block {
 
     static currentPage = '';
 
+    public pageName: string;
     private vDom: VDom;
     private meta: VTree;
-    private pageName: string;
     private firstMounted: boolean;
     private eventBus: () => EventBus;
     private root?: Node;
@@ -146,7 +146,12 @@ export class Block {
         const app = render(this.element);
 
         this.root = mount(app, document.getElementById('root'));
+        this.dispatchComponentDidMount();
         this.firstMounted = false;
+    }
+
+    public getMeta() {
+        return this.meta;
     }
 
     private makeMetaProxy(meta: VTree) {
