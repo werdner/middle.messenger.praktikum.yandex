@@ -15,8 +15,8 @@
 
 ### Тест и проверка проекта
 * `npm run test`
-* `npm run eslint`
-* `npm run stylelint`
+* `npm run lint`
+* `npm run lint:style`
 
 ### Сборка и запуск Docker
 * `docker build -t messenger .`

@@ -13,3 +13,5 @@
 
 # System Files
 .DS_Store
+
+coverage
