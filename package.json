@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "This is the instant messaging app and platform that was created as a study project. But who knows what the future holds for it",
   "engines": {
-    "node": "14.19.1",
-    "npm": "8.5.4"
+    "node": ">= 18.12.1"
   },
   "homepage": "https://github.com/werdner/middle.messenger.praktikum.yandex#readme",
   "source": "static/index/index.html",
