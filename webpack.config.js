@@ -17,7 +17,7 @@ const config = {
   },
   devServer: {
     compress: true,
-    port: 1234,
+    port: 3000,
     historyApiFallback: true,
   },
   plugins: [
