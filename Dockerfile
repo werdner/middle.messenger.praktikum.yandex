@@ -1,6 +1,8 @@
 FROM node:18-alpine
 RUN mkdir -p /var/app
 WORKDIR /var/app
+COPY ["package.json", "package-lock.json*", "./"]
+RUN npm install
 COPY . .
 EXPOSE 3000
-CMD npm install && npm run start
+CMD node run start
