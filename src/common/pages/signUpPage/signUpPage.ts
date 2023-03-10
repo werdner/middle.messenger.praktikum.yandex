@@ -26,10 +26,10 @@ export class SignUpPage extends Block {
 
         const events = {
             openSignInPage: () => router.go('/'),
-            onInputBlur: (event: Event) => this.inputValidator.onInputBlur(event)
+            onInputBlur: (event: Event) => this.inputValidator.onInputBlur(event),
             onInputChange: (event: Event) => {
                 const { target } = event;
-                if (target instanceof HTMLInputElement)
+                if (target instanceof HTMLInputElement) {
                     let state = this.store.state;
                     state[target.name] = target.value;
                     this.store.setState(state);
