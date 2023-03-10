@@ -172,10 +172,6 @@ export class ChatPage extends Block {
         const socket = WebSocketChat.instance;
         socket.sendMessage(this.store.state.message);
 
-        console.log({
-            message: this.store.state.message,
-        });
-
         if (element instanceof HTMLInputElement) {
             element.value = '';
         }
