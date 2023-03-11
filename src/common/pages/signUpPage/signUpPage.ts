@@ -92,11 +92,11 @@ export class SignUpPage extends Block {
         } catch (error) {
             if (error && typeof error === 'object' && 'reason' in error) {
                 if (error.reason === 'Cookie is not valid') {
-                    router.go('/')
+                    router.go('/');
                 }
-                alert(error?.reason)
+                alert(error?.reason);
             } else {
-                alert(error)
+                alert(error);
             }
         } finally {
             this.store.state.loading = false;

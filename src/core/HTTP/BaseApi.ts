@@ -1,6 +1,6 @@
 import { httpService, METHODS } from './index';
 
-type HTTPMethod = (url: string, data?: unknown) => Promise<any>
+type HTTPMethod = (url: string, data?: unknown) => Promise<any>;
 
 type API = {
     headers: Record<string, string>;

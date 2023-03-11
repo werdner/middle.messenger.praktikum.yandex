@@ -16,4 +16,8 @@ router
     .use('/500', new Error500Page())
     .use('/404', new Error404Page());
 
+
+// @ts-ignore
+window.router = router;
+
 export { router };

@@ -8,7 +8,7 @@ import { GetChatsResponse } from '../../../services/api/chat/types';
 import { WebSocketChat } from '../../../services/sockets/chat';
 import { Message } from '../../../services/sockets/types';
 import { validatorConfig } from '../../config/validatorConfig';
-import {auth} from "../../../services/api/auth/auth"
+import { auth } from '../../../services/api/auth/auth';
 
 export class ChatPage extends Block {
     private readonly validatorConfig;
@@ -94,14 +94,12 @@ export class ChatPage extends Block {
                             socket.getMessages();
                         },
                         messages: (msg: Message[] | Message) => {
-                            console.log('MESSAGES')
                             state.messages = (Array.isArray(msg) ? msg : [...state.messages, msg]) as Message[];
-                            this.store.setState(state)
+                            this.store.setState(state);
                             this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
                         },
                     });
 
-                    console.log(Object.assign({}, this.store.state))
                     const currentChat = this.store.state.chatList.find((chat: GetChatsResponse) => chat.id === Number(chatId));
                     state.selectedChat = currentChat;
 
@@ -136,16 +134,16 @@ export class ChatPage extends Block {
             await auth.user();
         } catch (error) {
             if (error && typeof error === 'object' && 'reason' in error) {
-                console.warn(error.reason)
+                console.warn(error.reason);
             }
-            router.go('/')
+            router.go('/');
         }
 
         await this.getChats();
         const state = this.store.state;
         state.currentUserId = getCurrentUserId();
         delete state.selectedChat;
-        state.messages = []
+        state.messages = [];
 
         this.store.setState(state);
         this.setMeta(this.pageTemplator?.updateTemplate(this.store.state));
@@ -173,10 +171,6 @@ export class ChatPage extends Block {
 
         const socket = WebSocketChat.instance;
         socket.sendMessage(this.store.state.message);
-
-        console.log({
-            message: this.store.state.message,
-        });
 
         if (element instanceof HTMLInputElement) {
             element.value = '';
@@ -230,9 +224,9 @@ export class ChatPage extends Block {
             await this.getChats();
         } catch (error) {
             if (error && typeof error === 'object' && 'reason' in error) {
-                alert(error?.reason)
+                alert(error?.reason);
             } else {
-                alert(error)
+                alert(error);
             }
         } finally {
             this.store.state.loadDeleteChat = false;

@@ -1,5 +1,6 @@
 {
     "extends": ["airbnb-typescript/base", "plugin:import/recommended"],
+    "overrides": [],
     "env": {
         "browser": true,
         "node": true

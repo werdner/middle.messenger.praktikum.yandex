@@ -4,6 +4,8 @@ import './index.css';
 const body = document.querySelector('body');
 const main = document.querySelector('main');
 
-body.append(main);
+if (body && main) {
+    body.append(main);
+}
 
 router.start();

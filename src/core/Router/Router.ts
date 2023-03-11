@@ -5,8 +5,9 @@ export class Router {
     static _instance: Router | null = null;
     public rootQuery: string | null = null;
 
-    private readonly history: History | null = null;
-    private routes: Route[] | null = null;
+    public readonly history: History | null = null;
+    public routes: Route[] | null = null;
+    public currentRoute: string | null = null;
 
     constructor(rootQuery: string) {
         if (Router._instance) {
@@ -31,8 +32,10 @@ export class Router {
     start() {
         window.addEventListener('popstate', () => {
             this._onRoute(window.location.pathname);
+            this.currentRoute = window.location.pathname;
         }, false);
 
+        this.currentRoute = window.location.pathname;
         this._onRoute(window.location.pathname);
     }
 
@@ -42,6 +45,7 @@ export class Router {
             return;
         }
 
+        this.currentRoute = pathname;
         route?.render();
     }
 
@@ -50,15 +54,18 @@ export class Router {
             return;
         }
 
+        this.currentRoute = pathname;
         this.history.pushState({}, '', pathname);
         this._onRoute(pathname);
     }
 
     back() {
+        this.currentRoute = window.location.pathname;
         this.history?.back();
     }
 
     forward() {
+        this.currentRoute = window.location.pathname;
         this.history?.forward();
     }
 
